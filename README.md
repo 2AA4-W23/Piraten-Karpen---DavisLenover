@@ -37,3 +37,13 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F06 | Score points: 3-of-a-kind | B (F04) | | 
 | ... | ... | ... |
 
+### Updated Backlog
+| MVP? | Id  | Feature  | Status  |  Started  | Delivered |
+| :-:  |:-:  |---       | :-:     | :-:       | :-:       |
+| x   | F01 | Roll a dice |  S | 01/01/23 |  |
+| x   | F02 | Roll eight dices  |  B (F01) |   |
+| x   | F04 | Calculate Percentage Wins after end of 42 games | P | |
+| x   | F05 | Player keeping random dice at their turn | B (F02) | | 
+| x   | F06 | Score points: Count number of gold coins and diamonds and multiply by 100 | B (F04) | | 
+| ... | ... | ... |
+
