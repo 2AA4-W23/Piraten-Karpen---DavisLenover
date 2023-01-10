@@ -1,1 +1,2 @@
 2023-01-09: Created logbook and begun overview of project. Completed up to task #1 of Step 2. I will leave my answers for now and as the project further progresses, make further changes.
+2023-01-10: Implemented player object and added all necessary components to which a player of the game would need (dice, rolling dice, the result of said roll, adding points, subtracting points). As a result, F01 and F02 are complete
