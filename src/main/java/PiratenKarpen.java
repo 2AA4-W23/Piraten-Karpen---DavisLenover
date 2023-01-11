@@ -12,16 +12,12 @@ public class PiratenKarpen {
 
         System.out.println("Rolling Dice for Player1...");
         player1.rollDice();
-        for (int i = 0; i < 8; i++) {
-            System.out.print(player1.getCurrentRoll()[i] + " ");
-        }
+        System.out.println(player1.getCurrentRoll());
         System.out.println("");
 
         System.out.println("Rolling Dice for Player2...");
         player2.rollDice();
-        for (int i = 0; i < 8; i++) {
-            System.out.print(player2.getCurrentRoll()[i] + " ");
-        }
+        System.out.println(player2.getCurrentRoll());
         System.out.println("");
 
         System.out.println("That's all folks!");

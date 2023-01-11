@@ -1,41 +1,52 @@
 package pk;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Player {
 
     // Declare variables
-    private Dice[] dices;
+    private ArrayList<Dice> dices;
     private int points;
-    private Faces[] currentRoll;
-    private Faces[] keptRolls;
+    private ArrayList<Faces> currentRoll;
+    private ArrayList<Faces> keptRolls;
 
     // Constructor
     public Player(int numberOfDice) {
 
         // Initialize variables
         this.points = 0;
-        this.currentRoll = new Faces[numberOfDice];
+        this.currentRoll = new ArrayList<Faces>();
         // Create number of dice needed
-        this.dices = new Dice[numberOfDice];
+        this.dices = new ArrayList<Dice>();
+        this.keptRolls = new ArrayList<Faces>();
         // For loop adding dice to array which holds all dice for a given player
         for (int i = 0; i < numberOfDice; i++) {
-            this.dices[i] = new Dice();
+            this.dices.add(new Dice());
         }
     }
 
     // Method to roll all dice the player has
     // What the player rolled is then stored in the currentRoll array
     public void rollDice() {
-        for (int i = 0; i < this.dices.length; i++) {
-            // Check if any specific dice was kept during the player's turn
-            // i.e., it will not be rolled
-            if (keptRolls[i] == null) {
-                this.currentRoll[i] = this.dices[i].roll();
-            }
+
+        // Clear previous roll (if-applicable)
+        currentRoll.clear();
+
+        // Roll all dices and store their value
+        for (Dice currentDie : dices) {
+            currentRoll.add(currentDie.roll());
         }
     }
 
+    public void keepRandomDice() {
+        Random random = new Random();
+        // First, check how many dice the player rolled (as we dont want to choose to take something like 5 dice when we only have 3)
+
+    }
+
     // Getters
-    public Faces[] getCurrentRoll() {
+    public ArrayList<Faces> getCurrentRoll() {
         return this.currentRoll;
     }
     public int getPoints() {
