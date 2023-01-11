@@ -42,7 +42,7 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
 | x   | F01 | Roll a dice |  D | 09/01/23 | 10/01/23 |
 | x   | F02 | Roll eight dices  |  D | 10/01/23  | 10/01/23 |
-| x   | F03 | end of game with three cranes | S | |
+| x   | F03 | end of game with three cranes | S | 11/01/23 |
 | x   | F04 | Calculate Percentage Wins after end of 42 games | S | 11/01/23 |
 | x   | F05 | Player keeping random dice at their turn | S | 11/01/23 | 
 | x   | F06 | Score points: Count number of gold coins and diamonds and multiply by 100 | S | 11/01/23 | 
