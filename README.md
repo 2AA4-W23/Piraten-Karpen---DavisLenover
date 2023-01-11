@@ -40,8 +40,8 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 ### Updated Backlog
 | MVP? | Id  | Feature  | Status  |  Started  | Delivered |
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
-| x   | F01 | Roll a dice |  D | 09/01/23 | 10/01/2023 |
-| x   | F02 | Roll eight dices  |  D | 10/01/2023  | 10/01/2023 |
+| x   | F01 | Roll a dice |  D | 09/01/23 | 10/01/23 |
+| x   | F02 | Roll eight dices  |  D | 10/01/23  | 10/01/23 |
 | x   | F03 | end of game with three cranes | P | |
 | x   | F04 | Calculate Percentage Wins after end of 42 games | P | |
 | x   | F05 | Player keeping random dice at their turn | B (F02) | | 

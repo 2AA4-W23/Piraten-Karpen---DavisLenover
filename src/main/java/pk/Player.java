@@ -6,6 +6,7 @@ public class Player {
     private Dice[] dices;
     private int points;
     private Faces[] currentRoll;
+    private Faces[] keptRolls;
 
     // Constructor
     public Player(int numberOfDice) {
@@ -25,7 +26,11 @@ public class Player {
     // What the player rolled is then stored in the currentRoll array
     public void rollDice() {
         for (int i = 0; i < this.dices.length; i++) {
-            this.currentRoll[i] = this.dices[i].roll();
+            // Check if any specific dice was kept during the player's turn
+            // i.e., it will not be rolled
+            if (keptRolls[i] == null) {
+                this.currentRoll[i] = this.dices[i].roll();
+            }
         }
     }
 
