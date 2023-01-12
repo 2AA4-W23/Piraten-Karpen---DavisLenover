@@ -3,10 +3,9 @@ package pk;
 public class MainGame {
 
     // Method to play game
-    public static void playGame(Player player1, Player player2) {
+    public static void playGame(Player player1, Player player2, int numOfGames) {
 
         // Stats variable declarations
-        int numOfGames = 42;
         int currentGamenum = 0;
 
         int player1Wins = 0;
@@ -50,25 +49,20 @@ public class MainGame {
                 if (player1.getPoints() > player2.getPoints()) {
                     //System.out.println("(DEBUG) Player 1 wins!");
                     player1Wins++;
-                    player1.resetDice();
-                    player2.resetDice();
-                    player1.setPoints(0);
-                    player2.setPoints(0);
                 } else if (player1.getPoints() < player2.getPoints()) {
                     //System.out.println("(DEBUG) Player 2 wins!");
                     player2Wins++;
-                    player1.resetDice();
-                    player2.resetDice();
-                    player1.setPoints(0);
-                    player2.setPoints(0);
                 } else {
                     //System.out.println("(DEBUG) It is a tie!");
                     ties++;
-                    player1.resetDice();
-                    player2.resetDice();
-                    player1.setPoints(0);
-                    player2.setPoints(0);
                 }
+
+                // Reset
+                player1.resetDice();
+                player2.resetDice();
+                player1.setPoints(0);
+                player2.setPoints(0);
+
                 currentGamenum++;
 
             }

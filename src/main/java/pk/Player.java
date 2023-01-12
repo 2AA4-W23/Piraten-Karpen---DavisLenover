@@ -20,9 +20,9 @@ public class Player {
         this.points = 0;
         this.mainNumberOfDice = numberOfDice;
         this.currentRoll = new ArrayList<Faces>();
-        // Create number of dice needed
         this.dices = new ArrayList<Dice>();
         this.keptRolls = new ArrayList<Faces>();
+
         // For loop adding dice to array which holds all dice for a given player
         for (int i = 0; i < numberOfDice; i++) {
             this.dices.add(new Dice());

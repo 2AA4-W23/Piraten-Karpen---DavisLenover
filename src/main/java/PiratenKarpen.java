@@ -13,7 +13,7 @@ public class PiratenKarpen {
         Player player2 = new Player(8);
 
         // Play game
-        MainGame.playGame(player1, player2);
+        MainGame.playGame(player1, player2, 42);
 
         System.out.println("That's all folks!");
     }
