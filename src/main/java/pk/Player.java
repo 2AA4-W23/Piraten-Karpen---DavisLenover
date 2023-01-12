@@ -48,6 +48,7 @@ public class Player {
 
     // Method to add all skulls rolled to keptrolls
     private void addSkulls() {
+
         // Loop through all dice rolled
         for (Faces currentFace : this.currentRoll) {
             // Check if any were a skull
@@ -57,39 +58,35 @@ public class Player {
                 this.dices.remove(0);
             }
         }
+
+        // Remove any skulls from current roll array list
+        this.currentRoll.removeIf(face -> face.equals(Faces.SKULL));
+
     }
 
     // Method to keep random dice given the current roll
-    // For the sake of time (as outlined in step #2), this assumes that there is at minimum two dice
     public void keepRandomDice() {
-        Random random = new Random();
-        // First, check how many dice the player rolled (as we dont want to choose to take something like 5 dice when we only have 3)
+
         int max = this.currentRoll.size();
         int min = 0;
-        // Randomly choose have many dice to keep
-        int diceToTake = random.nextInt((max - min) + 1) + min;
-        // Get random positions of dice to keep
-        // Create list of integers (wrapper class)
-        ArrayList<Integer> dicePositions = new ArrayList<Integer>();
 
-        // Determine which dice (or rather "roll") to take
-        while(dicePositions.size() != diceToTake) {
-            // Randomly generate a position in the dice array list to take from
-            int position = random.nextInt((max - 1) + 1);
-            // Check if the position does not exist (the case when we need to take multiple dice)
-            if (!dicePositions.contains(position)) {
-                // If it doesn't, add the position to the position array list
-                dicePositions.add(position);
-            }
-        }
+        // Generate a number between 0 and the number of dice still in play for the player
+        Random random = new Random();
+        int numberOfRollsToTake = random.nextInt(max-min) + min;
 
-        // "Move" the dice chosen to be kept
-        for (int position : dicePositions) {
-            // Add roll to kept rolls
-            this.keptRolls.add(currentRoll.get(position));
-            // Remove a dice from main dice array list
+        // For the number of rolls we will take, choose a random position from the current roll array list to take
+        for (int iterate = 0; iterate < numberOfRollsToTake; iterate++) {
+            // Get a random position from current roll to take
+            int positionToTake = random.nextInt(this.currentRoll.size()-1);
+            // Add the roll to the player' kept rolls
+            this.keptRolls.add(this.currentRoll.get(positionToTake));
+            // Remove the roll from the current roll
+            currentRoll.remove(positionToTake);
+            // Remove one dice from the player
             this.dices.remove(0);
+
         }
+
 
     }
 
@@ -128,10 +125,11 @@ public class Player {
         return this.keptRolls;
     }
 
-    // Setters
     public void setPoints(int points) {
         this.points = points;
     }
+
+    // Setters
     public void addPoints(int points) {
         this.points += points;
     }
