@@ -1,9 +1,18 @@
 package pk;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class MainGame {
 
     // Method to play game
-    public static void playGame(Player player1, Player player2, int numOfGames) {
+    public static void playGame(int numOfGames, Player ... players) {
+
+        // Determine number of players
+        ArrayList<Player> playerList = new ArrayList<Player>();
+        for (Player player : players) {
+            playerList.add(player);
+        }
 
         // Stats variable declarations
         int currentGamenum = 0;

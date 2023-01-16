@@ -11,6 +11,8 @@ public class Player {
     private ArrayList<Faces> currentRoll;
     private ArrayList<Faces> keptRolls;
 
+    private int wins;
+
     private int mainNumberOfDice;
 
     // Constructor
@@ -22,6 +24,7 @@ public class Player {
         this.currentRoll = new ArrayList<Faces>();
         this.dices = new ArrayList<Dice>();
         this.keptRolls = new ArrayList<Faces>();
+        this.wins = 0;
 
         // For loop adding dice to array which holds all dice for a given player
         for (int i = 0; i < numberOfDice; i++) {
