@@ -3,7 +3,7 @@ package pk;
 import java.util.ArrayList;
 
 // The purpose of this class is to house all the necessary methods for point calculation
-public class PointCalc {
+public class Points {
 
     // Method to calculate points for a player given the amount of gold and diamond coins
     public static int checkForPoints(ArrayList<Faces> diceToCheck) {

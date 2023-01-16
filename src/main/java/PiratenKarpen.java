@@ -1,7 +1,5 @@
-import pk.Dice;
 import pk.MainGame;
 import pk.Player;
-import pk.PointCalc;
 
 public class PiratenKarpen {
 

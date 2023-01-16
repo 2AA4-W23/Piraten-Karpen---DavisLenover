@@ -1,7 +1,6 @@
 package pk;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainGame {
 
@@ -17,41 +16,24 @@ public class MainGame {
         // Stats variable declarations
         int currentGamenum = 0;
 
-        int player1Wins = 0;
-        int player2Wins = 0;
-        int ties  = 0;
-
         System.out.println("Let the game begin!");
         System.out.println("Simulating...");
 
         while (currentGamenum != numOfGames) {
 
-            // Player rolling and keeping random dice
-            //System.out.println("(DEBUG) Player 1's turn...");
-            do {
-                player1.rollDice();
-                if (player1.getDices().size() != 0) {
-                    player1.keepRandomDice();
-                } else {
-                    break;
-                }
-            } while (player1.getNumberOfSkulls() < 2);
+            for (Player currentPlayer : playerList) {
+                do {
+                    currentPlayer.rollDice();
+                    if (currentPlayer.getDices().size() != 0) {
+                        currentPlayer.keepRandomDice();
+                    } else {
+                        break;
+                    }
+                } while (currentPlayer.getNumberOfSkulls() < 2);
 
-            player1.addPoints(PointCalc.checkForPoints(player1.getKeptRolls()));
-            player1.resetDice();
-
-            //System.out.println("(DEBUG) Player 2's turn...");
-            do {
-                player2.rollDice();
-                if (player2.getDices().size() != 0) {
-                    player2.keepRandomDice();
-                } else {
-                    break;
-                }
-            } while (player2.getNumberOfSkulls() < 2);
-
-            player2.addPoints(PointCalc.checkForPoints(player2.getKeptRolls()));
-            player2.resetDice();
+                currentPlayer.addPoints(Points.checkForPoints(currentPlayer.getKeptRolls()));
+                currentPlayer.resetDice();
+            }
 
             // After each turn, check if any win condition has been set
             if (player1.getPoints() >= 6000 || player2.getPoints() >= 6000) {
@@ -89,6 +71,52 @@ public class MainGame {
         // Ties
         System.out.printf("Ties: %d, ",ties);
         System.out.printf("%% of ties: %.02f%%\n",(float) ties/numOfGames*100);
+
+    }
+
+
+    public ArrayList<Player> getWinConditionPlayers(ArrayList<Player> players, int winCondition) {
+
+        // Variable declaration
+        ArrayList<Player> winningPlayers = new ArrayList<Player>();
+
+        // Go through list of players
+        for (Player currentPlayer : players) {
+
+            // If any satisfy the point win condition, add them to the winningPlayers list
+            if (currentPlayer.getPoints() >= winCondition) {
+                winningPlayers.add(currentPlayer);
+            }
+        }
+
+        // Check if more than one player satisfied the win condition
+        if (winningPlayers.size() > 1) {
+
+            // Variable declaration
+            Player highestScoringPlayer = null;
+            ArrayList<Player> tiedPlayers = new ArrayList<Player>();
+
+            // Go through all winning players and check who has higher points or tied
+            for (Player currentPlayer : winningPlayers) {
+                if (highestScoringPlayer == null) {
+                    highestScoringPlayer = currentPlayer;
+                    continue;
+                }
+
+                if (highestScoringPlayer.getPoints() < currentPlayer.getPoints()) {
+                    highestScoringPlayer = currentPlayer;
+                    tiedPlayers.clear();
+
+                } else if (highestScoringPlayer.getPoints() == currentPlayer.getPoints()) {
+                    tiedPlayers.add(currentPlayer);
+                    if (!tiedPlayers.contains(highestScoringPlayer)) {
+                        tiedPlayers.add(highestScoringPlayer);
+                    }
+                }
+
+            }
+
+        }
 
     }
 
