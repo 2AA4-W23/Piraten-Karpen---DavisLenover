@@ -1,11 +1,17 @@
 package pk;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 // This is abstract as players can have different strategies
 // Any methods implemented are the same for every player
 public abstract class Player {
+
+    Logger classLogger = LogManager.getLogger(Player.class);
 
     // Declare variables
     private String playerName;
@@ -50,6 +56,8 @@ public abstract class Player {
             this.currentRoll.add(currentDie.roll());
         }
 
+        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": Rolled " + this.getCurrentRoll(), Level.DEBUG);
+
         // Then add skulls to kept dice
         addSkulls();
 
@@ -71,6 +79,8 @@ public abstract class Player {
         // Remove any skulls from current roll array list
         this.currentRoll.removeIf(face -> face.equals(Faces.SKULL));
 
+        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": Attempted to remove any skulls, currentRoll is now: " + this.getCurrentRoll(), Level.DEBUG);
+        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": keptRolls is now: " + this.getKeptRolls(), Level.DEBUG);
     }
 
     // Method for player strategy

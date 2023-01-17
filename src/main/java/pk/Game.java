@@ -1,8 +1,14 @@
 package pk;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 
 public class Game {
+
+    Logger classLogger = LogManager.getLogger(Game.class);
 
     private ArrayList<Player> playerList;
     private int numberOfRounds;
@@ -17,6 +23,7 @@ public class Game {
         for (Player currentPlayer : players) {
             this.playerList.add(currentPlayer);
         }
+
     }
 
     // Method to play game
@@ -29,18 +36,25 @@ public class Game {
 
             // Each player rolls dice and uses a strategy for keeping dice
             for (Player currentPlayer : this.playerList) {
+                Tracker.logMessage(this.classLogger,"", Level.DEBUG);
+                Tracker.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
+                Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
                 do {
+                    Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
                     currentPlayer.rollDice();
-                    if (currentPlayer.getDices().size() != 0) {
+                    if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {
+                        Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
                         currentPlayer.strategy();
                     } else {
                         break;
                     }
-                } while (currentPlayer.getNumberOfSkulls() < 2);
+                } while (currentPlayer.getNumberOfSkulls() <= 2 && currentPlayer.getKeptRolls().size() < 8);
 
                 // Add points and reset player dice at the end of their turn
                 currentPlayer.addPoints(Points.checkForPoints(currentPlayer.getKeptRolls()));
+                Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                 currentPlayer.resetDice();
+                Tracker.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " end turn------|", Level.DEBUG);
             }
 
             // After each turn, check if any win condition has been set
@@ -58,6 +72,23 @@ public class Game {
             }
 
         }
+
+    }
+
+    // Method to check if a player has three skulls
+    public static boolean checkIfTurnEnds(Player player) {
+        int numberOfSkulls = 0;
+        for (Faces face : player.getKeptRolls()) {
+            if (face.equals(Faces.SKULL)) {
+                numberOfSkulls++;
+            }
+        }
+
+        if (numberOfSkulls == 3) {
+            return true;
+        }
+
+        return false;
 
     }
 
