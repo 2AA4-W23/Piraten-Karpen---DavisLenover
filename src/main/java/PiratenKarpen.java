@@ -1,5 +1,6 @@
 import pk.Game;
 import pk.Player;
+import pk.PlayerRandom;
 import pk.Tracker;
 
 public class PiratenKarpen {
@@ -8,8 +9,8 @@ public class PiratenKarpen {
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
         System.out.println("Creating two players each with eight dice...");
-        Player player1 = new Player("Bob",8);
-        Player player2 = new Player("Jim",8);
+        Player player1 = new PlayerRandom("Bob",8);
+        Player player2 = new PlayerRandom("Jim",8);
 
         Game game = new Game(42, 6000, player1,player2);
         game.playGame();

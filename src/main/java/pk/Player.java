@@ -3,19 +3,20 @@ package pk;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Player {
+// This is abstract as players can have different strategies
+// Any methods implemented are the same for every player
+public abstract class Player {
 
     // Declare variables
     private String playerName;
 
+    private int mainNumberOfDice;
     private ArrayList<Dice> dices;
-    private int points;
     private ArrayList<Faces> currentRoll;
     private ArrayList<Faces> keptRolls;
 
+    private int points;
     private int wins;
-
-    private int mainNumberOfDice;
 
     // Constructor
     public Player(String playerName, int numberOfDice) {
@@ -23,11 +24,13 @@ public class Player {
         // Initialize variables
         this.playerName = playerName;
         this.points = 0;
+        this.wins = 0;
+
         this.mainNumberOfDice = numberOfDice;
+
         this.currentRoll = new ArrayList<Faces>();
         this.dices = new ArrayList<Dice>();
         this.keptRolls = new ArrayList<Faces>();
-        this.wins = 0;
 
         // For loop adding dice to array which holds all dice for a given player
         for (int i = 0; i < numberOfDice; i++) {
@@ -70,31 +73,9 @@ public class Player {
 
     }
 
-    // Method to keep random dice given the current roll
-    public void keepRandomDice() {
-
-        int max = this.currentRoll.size();
-        int min = 0;
-
-        // Generate a number between 0 and the number of dice still in play for the player
-        Random random = new Random();
-        int numberOfRollsToTake = random.nextInt(max-min) + min;
-
-        // For the number of rolls we will take, choose a random position from the current roll array list to take
-        for (int iterate = 0; iterate < numberOfRollsToTake; iterate++) {
-            // Get a random position from current roll to take
-            int positionToTake = random.nextInt(this.currentRoll.size()-1);
-            // Add the roll to the player' kept rolls
-            this.keptRolls.add(this.currentRoll.get(positionToTake));
-            // Remove the roll from the current roll
-            currentRoll.remove(positionToTake);
-            // Remove one dice from the player
-            this.dices.remove(0);
-
-        }
-
-
-    }
+    // Method for player strategy
+    // This is a blueprint for specific extensions of player to implement
+    public abstract void strategy();
 
     public void resetDice() {
        this.currentRoll.clear();
@@ -139,11 +120,10 @@ public class Player {
         return this.keptRolls;
     }
 
+    // Setters
     public void setPoints(int points) {
         this.points = points;
     }
-
-    // Setters
     public void addPoints(int points) {
         this.points += points;
     }
@@ -154,7 +134,6 @@ public class Player {
     public void addWin() {
         this.wins += 1;
     }
-
     public void resetWins() {
         this.wins = 0;
     }

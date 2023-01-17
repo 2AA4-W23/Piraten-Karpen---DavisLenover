@@ -27,16 +27,18 @@ public class Game {
 
         while (this.currentRoundNumber != this.numberOfRounds) {
 
+            // Each player rolls dice and uses a strategy for keeping dice
             for (Player currentPlayer : this.playerList) {
                 do {
                     currentPlayer.rollDice();
                     if (currentPlayer.getDices().size() != 0) {
-                        currentPlayer.keepRandomDice();
+                        currentPlayer.strategy();
                     } else {
                         break;
                     }
                 } while (currentPlayer.getNumberOfSkulls() < 2);
 
+                // Add points and reset player dice at the end of their turn
                 currentPlayer.addPoints(Points.checkForPoints(currentPlayer.getKeptRolls()));
                 currentPlayer.resetDice();
             }
