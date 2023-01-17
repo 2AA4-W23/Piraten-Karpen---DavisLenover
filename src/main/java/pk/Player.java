@@ -6,6 +6,8 @@ import java.util.Random;
 public class Player {
 
     // Declare variables
+    private String playerName;
+
     private ArrayList<Dice> dices;
     private int points;
     private ArrayList<Faces> currentRoll;
@@ -16,9 +18,10 @@ public class Player {
     private int mainNumberOfDice;
 
     // Constructor
-    public Player(int numberOfDice) {
+    public Player(String playerName, int numberOfDice) {
 
         // Initialize variables
+        this.playerName = playerName;
         this.points = 0;
         this.mainNumberOfDice = numberOfDice;
         this.currentRoll = new ArrayList<Faces>();
@@ -103,6 +106,14 @@ public class Player {
     }
 
     // Getters
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    public int getWins() {
+        return this.wins;
+    }
+
     public ArrayList<Faces> getCurrentRoll() {
         return this.currentRoll;
     }
@@ -138,6 +149,14 @@ public class Player {
     }
     public void subPoints(int points) {
         this.points -= points;
+    }
+
+    public void addWin() {
+        this.wins += 1;
+    }
+
+    public void resetWins() {
+        this.wins = 0;
     }
 
 }
