@@ -19,7 +19,7 @@
 Remark: **We are assuming here you are using a _real_ shell (e.g., anything but PowerShell on Windows)**
 
 ## Trace Mode
- * Trace mode is available by running the main method in PiratenKarpen with argument **"traceActive"**
+ * Trace mode is available by running the main method in PiratenKarpen with argument **'traceActive'**
  **NOTE: This WILL produce a very large output log to console if the amount of rounds played is high!**
 
 ## Feature Backlog
