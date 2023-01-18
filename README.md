@@ -52,3 +52,9 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F06 | Score points (Counting Gold/Diamonds) | D | 11/01/23 | 12/01/23 |
 | x   | F07 | Simulate games | D | 12/01/23 | 12/01/23 |
 
+### Enhanced Business Logic Backlog
+| MVP? | Id  | Feature  | Status  |  Started  | Delivered |
+| :-:  |:-:  |---       | :-:     | :-:       | :-:       |
+| x   | F08 | Multiple dice pairs/combination rewards |  S | 18/01/23 | |
+| x   | F09 | Player maximize combo strategy |  B (F08) | | |
+| x   | F10 | Allow user to choose player strategies via command line |  B (F09) | | |
