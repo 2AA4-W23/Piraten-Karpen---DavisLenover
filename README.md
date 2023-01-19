@@ -55,6 +55,6 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 ### Enhanced Business Logic Backlog
 | MVP? | Id  | Feature  | Status  |  Started  | Delivered |
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
-| x   | F08 | Multiple dice pairs/combination rewards |  S | 18/01/23 | |
-| x   | F09 | Player maximize combo strategy |  B (F08) | | |
+| x   | F08 | Multiple dice pairs/combination rewards |  D | 18/01/23 | 19/01/23 |
+| x   | F09 | Player maximize combo strategy |  S | 18/01/23 | |
 | x   | F10 | Allow user to choose player strategies via command line |  B (F09) | | |

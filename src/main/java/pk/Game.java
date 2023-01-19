@@ -51,7 +51,7 @@ public class Game {
                 } while (currentPlayer.getNumberOfSkulls() <= 2 && currentPlayer.getKeptRolls().size() < 8);
 
                 // Add points and reset player dice at the end of their turn
-                currentPlayer.addPoints(Points.checkForPoints(currentPlayer.getKeptRolls()));
+                currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls()));
                 Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                 currentPlayer.resetDice();
                 Tracker.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " end turn------|", Level.DEBUG);
