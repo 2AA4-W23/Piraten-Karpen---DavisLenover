@@ -23,7 +23,7 @@ public class PiratenKarpen {
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
         Tracker.logMessage(classLogger,"Creating player Bob with 8 Dice...",Level.DEBUG);
-        Player player1 = new PlayerRandom("Bob",8);
+        Player player1 = new PlayerCombo("Bob",8);
         Tracker.logMessage(classLogger,"Creating player Jim with 8 Dice...",Level.DEBUG);
         Player player2 = new PlayerRandom("Jim",8);
 

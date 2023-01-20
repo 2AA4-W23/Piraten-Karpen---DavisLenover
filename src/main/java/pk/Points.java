@@ -104,9 +104,12 @@ public class Points {
         }
 
         // Award points
-        for (int numberOfDuplicates : setLog.values()) {
-            if (numberOfDuplicates >= 3) {
-                totalPoints += pointList[numberOfDuplicates-1];
+        for (Faces currentFace : setLog.keySet()) {
+            if (currentFace != Faces.SKULL) {
+                int numberOfDuplicates = setLog.get(currentFace);
+                if (numberOfDuplicates >= 3) {
+                    totalPoints += pointList[numberOfDuplicates-1];
+                }
             }
         }
 
@@ -115,7 +118,7 @@ public class Points {
 
             // Check if any duplicates of dice were 3 or more
             // This must mean that Face made some set
-            if (setLog.get(currentFace) >= 3) {
+            if (setLog.get(currentFace) >= 3 && currentFace != Faces.SKULL) {
 
                 // Loop through the rollToCheck and find the corresponding roll positions to set to true in diceUsed
                 int diceUsedIndex = 0;

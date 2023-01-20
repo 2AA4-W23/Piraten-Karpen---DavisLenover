@@ -83,6 +83,56 @@ public abstract class Player {
         Tracker.logMessage(this.classLogger,this.getPlayerName() + ": keptRolls is now: " + this.getKeptRolls(), Level.DEBUG);
     }
 
+    // Method to keep the first instance of a roll
+    // Note that there is no real reason to deal with keep a specific position of two similar roles as they are identical
+    public void keepRoll(Faces rollToKeep) {
+
+        // Check if current roll contains the Face
+        if (this.getCurrentRoll().contains(rollToKeep)) {
+
+            int currentRollIndex = 0;
+
+            for (Faces currentRoll : this.getCurrentRoll()) {
+
+                if (currentRoll == rollToKeep) {
+                    // If it does, add it to the kept rolls
+                    this.getKeptRolls().add(currentRoll);
+                    break;
+                }
+                currentRollIndex++;
+            }
+
+            // Remove the roll from the currentRoll array list afterwards
+            this.getCurrentRoll().remove(currentRollIndex);
+            this.getDices().remove(0);
+        }
+
+    }
+
+    // Method to keep all instances of a given roll
+    public void keepAllRolls(Faces rollToKeep) {
+
+        while (this.getCurrentRoll().contains(rollToKeep)) {
+            int currentRollIndex = 0;
+
+            // Check if the requested dice to remove even exists
+            for (Faces currentRoll : this.getCurrentRoll()) {
+
+                if (currentRoll == rollToKeep) {
+                    // If it does, add it to the kept rolls
+                    this.getKeptRolls().add(currentRoll);
+                    break;
+                }
+                currentRollIndex++;
+            }
+
+            // Remove the roll from the currentRoll array list afterwards
+            this.getCurrentRoll().remove(currentRollIndex);
+            this.getDices().remove(0);
+        }
+
+    }
+
     // Method for player strategy
     // This is a blueprint for specific extensions of player to implement
     public abstract void strategy();

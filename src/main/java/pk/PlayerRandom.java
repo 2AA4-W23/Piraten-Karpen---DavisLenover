@@ -33,12 +33,8 @@ public class PlayerRandom extends Player {
             int positionToTake = random.nextInt(super.getCurrentRoll().size());
             Tracker.logMessage(this.classLogger,super.getPlayerName() + ": Position of a dice to take: " + positionToTake, Level.DEBUG);
             // Add the roll to the player' kept rolls
-            super.getKeptRolls().add(super.getCurrentRoll().get(positionToTake));
             Tracker.logMessage(this.classLogger,super.getPlayerName() + ": Position of roll was of a: " + super.getCurrentRoll().get(positionToTake), Level.DEBUG);
-            // Remove the roll from the current roll
-            super.getCurrentRoll().remove(positionToTake);
-            // Remove one dice from the player
-            super.getDices().remove(0);
+            super.keepRoll(super.getCurrentRoll().get(positionToTake));
 
         }
 
