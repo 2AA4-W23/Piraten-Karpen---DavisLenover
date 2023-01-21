@@ -5,15 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 public class Tracker {
 
-    // Logging
-    public static boolean isLogging = false;
-
-    public static void logMessage(Logger logger, String message, Level level) {
-        if (isLogging) {
-            logger.log(level,message);
-        }
-    }
-
     public static void printStatsToConsole(Game game) {
         System.out.println("|--------Game Statistics--------|");
         System.out.println("|-----General-----|");

@@ -10,11 +10,11 @@
   * To compile the project:
     * `mvn compile`
   * To run the project in development mode:
-    * `mvn -q exec:java` (here, `-q` tells maven to be _quiet_)
+    * `mvn exec:java -Dexec.args="random combo"` (here, `-q` tells maven to be _quiet_)
   * To package the project as a turn-key artefact:
     * `mvn package`
   * To run the packaged delivery:
-    * `java -jar target/piraten-karpen-jar-with-dependencies.jar` 
+    * `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo` 
 
 Remark: **We are assuming here you are using a _real_ shell (e.g., anything but PowerShell on Windows)**
 
@@ -57,4 +57,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
 | x   | F08 | Multiple dice pairs/combination rewards |  D | 18/01/23 | 19/01/23 |
 | x   | F09 | Player maximize combo strategy |  S | 18/01/23 | |
-| x   | F10 | Allow user to choose player strategies via command line |  B (F09) | | |
+| x   | F10 | Allow user to choose player strategies via command line |  S | 20/01/23 | |

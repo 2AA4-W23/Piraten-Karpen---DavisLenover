@@ -44,6 +44,27 @@ public abstract class Player {
         }
     }
 
+    // Method to create a list of all players given the console arguments
+    // Also checks if traceMode is to be activated
+    public static ArrayList<Player> createAllPlayers(String[] listOfPlayerTypes) throws UnknownPlayerException {
+
+        ArrayList<Player> createdPlayerList = new ArrayList<Player>();
+
+        for (int index = 0; index < listOfPlayerTypes.length; index++) {
+            if (listOfPlayerTypes[index].contains("random")) {
+                createdPlayerList.add(new PlayerRandom("PlayerRandom" + index,8));
+            } else if (listOfPlayerTypes[index].contains("combo")) {
+                createdPlayerList.add(new PlayerCombo("PlayerCombo" + index,8));
+            } else if (listOfPlayerTypes[index].contains("traceActive")) {
+                DevTools.enableLogging();
+            } else {
+                throw new UnknownPlayerException("'" + listOfPlayerTypes[index] + "' is an unknown type of player.");
+            }
+        }
+
+        return createdPlayerList;
+    }
+
     // Method to roll all dice the player has
     // What the player rolled is then stored in the currentRoll array
     public void rollDice() {
@@ -56,7 +77,7 @@ public abstract class Player {
             this.currentRoll.add(currentDie.roll());
         }
 
-        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": Rolled " + this.getCurrentRoll(), Level.DEBUG);
+        DevTools.logMessage(this.classLogger,this.getPlayerName() + ": Rolled " + this.getCurrentRoll(), Level.DEBUG);
 
         // Then add skulls to kept dice
         addSkulls();
@@ -79,8 +100,8 @@ public abstract class Player {
         // Remove any skulls from current roll array list
         this.currentRoll.removeIf(face -> face.equals(Faces.SKULL));
 
-        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": Attempted to remove any skulls, currentRoll is now: " + this.getCurrentRoll(), Level.DEBUG);
-        Tracker.logMessage(this.classLogger,this.getPlayerName() + ": keptRolls is now: " + this.getKeptRolls(), Level.DEBUG);
+        DevTools.logMessage(this.classLogger,this.getPlayerName() + ": Attempted to remove any skulls, currentRoll is now: " + this.getCurrentRoll(), Level.DEBUG);
+        DevTools.logMessage(this.classLogger,this.getPlayerName() + ": keptRolls is now: " + this.getKeptRolls(), Level.DEBUG);
     }
 
     // Method to keep the first instance of a roll

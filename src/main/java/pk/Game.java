@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -15,12 +16,13 @@ public class Game {
     private int currentRoundNumber;
     private int winCondition;
 
-    public Game(int numberOfRounds, int winCondition, Player ... players) {
+    public Game(int numberOfRounds, int winCondition, List<Player> players) {
         this.playerList = new ArrayList<Player>();
         this.numberOfRounds = numberOfRounds;
         this.currentRoundNumber = 0;
         this.winCondition = winCondition;
         for (Player currentPlayer : players) {
+            DevTools.logMessage(this.classLogger,"Found player: " + currentPlayer.getPlayerName(),Level.DEBUG);
             this.playerList.add(currentPlayer);
         }
 
@@ -36,14 +38,14 @@ public class Game {
 
             // Each player rolls dice and uses a strategy for keeping dice
             for (Player currentPlayer : this.playerList) {
-                Tracker.logMessage(this.classLogger,"", Level.DEBUG);
-                Tracker.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
-                Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
+                DevTools.logMessage(this.classLogger,"", Level.DEBUG);
+                DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
+                DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
                 do {
-                    Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
+                    DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
                     currentPlayer.rollDice();
                     if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {
-                        Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
+                        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
                         currentPlayer.strategy();
                     } else {
                         break;
@@ -52,9 +54,9 @@ public class Game {
 
                 // Add points and reset player dice at the end of their turn
                 currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls()));
-                Tracker.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
+                DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                 currentPlayer.resetDice();
-                Tracker.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " end turn------|", Level.DEBUG);
+                DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " end turn------|", Level.DEBUG);
             }
 
             // After each turn, check if any win condition has been set
