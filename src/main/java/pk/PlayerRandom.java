@@ -41,6 +41,13 @@ public class PlayerRandom extends Player {
         DevTools.logMessage(this.classLogger,super.getPlayerName() + ": The size of keptRolls is now " + super.getKeptRolls().size(), Level.DEBUG);
         DevTools.logMessage(this.classLogger,super.getPlayerName() + ": keptRolls " + super.getKeptRolls(), Level.DEBUG);
 
+        // Decide at random to end turn
+        if ((random.nextInt((10-1)+1) + 1) > 8) {
+            DevTools.logMessage(this.classLogger,super.getPlayerName() + " has decided to end their turn", Level.DEBUG);
+            endTurn();
+        }
+
+
     }
 
 }

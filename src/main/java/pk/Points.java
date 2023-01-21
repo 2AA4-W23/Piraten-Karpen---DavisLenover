@@ -1,5 +1,6 @@
 package pk;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
 // The purpose of this class is to house all the necessary methods for point calculation
 public class Points {
 
-    Logger classLogger = LogManager.getLogger(Points.class);
+    static Logger classLogger = LogManager.getLogger(Points.class);
 
     /*There are three ways to score points:
 
@@ -28,9 +29,21 @@ public class Points {
     // Method to calculate how many points a given set of rolls is currently worth
     public static int calculatePoints(ArrayList<Faces> rollsToCheck) {
 
+        DevTools.logMessage(classLogger,"", Level.DEBUG);
+        DevTools.logMessage(classLogger,"Checking roll set for points: " + rollsToCheck, Level.DEBUG);
+
         int awardedPoints = 0;
 
         int keptRollsSize = rollsToCheck.size();
+
+        // First check if the roll set has 3 skulls
+        if (keptRollsSize >= 3) {
+            if (has3Skulls(rollsToCheck)) {
+                DevTools.logMessage(classLogger,"Roll contains 3 or more skulls, no points awarded", Level.DEBUG);
+                // If so award 0 points
+                return awardedPoints;
+            }
+        }
 
         // To calculate if the player obtained a full chest, use a boolean array which each index corresponds to the given rolls
         boolean[] rollsUsed = new boolean[keptRollsSize];
@@ -39,26 +52,53 @@ public class Points {
         // Calculate points and set which rolls were used accordingly
         awardedPoints += checkForDiamondAndGold(rollsToCheck, rollsUsed);
         awardedPoints += checkForSets(rollsToCheck, rollsUsed);
+
         // Check for Full Chest
         if (rollsUsed.length == 8) {
-            awardedPoints += 500;
+            boolean fullChest = true;
             // Check if all dice were used (must be 8 too!)
             for (boolean currentBool : rollsUsed) {
                 if (currentBool == false) {
                     // If not subtract the 500 points awarded
-                    awardedPoints -= 500;
+                    fullChest = false;
                     break;
                 }
             }
+
+            if (fullChest) {
+                DevTools.logMessage(classLogger,"All dice were used in calculation. Thus a full chest occurred, +500 points", Level.DEBUG);
+                awardedPoints += 500;
+            }
+
         }
 
-
+        DevTools.logMessage(classLogger,"Total awarded points: " + awardedPoints, Level.DEBUG);
         return awardedPoints;
+
+    }
+
+    // Method to check if 3 skulls are in the current roll
+    private static boolean has3Skulls(ArrayList<Faces> rollsToCheck) {
+        int numberOfSkulls = 0;
+
+        for (Faces currentFace : rollsToCheck) {
+            if (currentFace == Faces.SKULL) {
+                numberOfSkulls++;
+            }
+        }
+
+        if (numberOfSkulls >= 3) {
+            return true;
+        }
+
+        return false;
 
     }
 
     // Method to calculate points for a player given the amount of gold and diamond coins
     private static int checkForDiamondAndGold(ArrayList<Faces> rollToCheck, boolean[] rollsUsed) {
+
+        DevTools.logMessage(classLogger,"Checking roll set for diamond and gold rolls...", Level.DEBUG);
 
         // Initialize
         int numOfDiamonds = 0;
@@ -80,11 +120,18 @@ public class Points {
             diceUsedIndex++;
 
         }
+
+        int points = (numOfDiamonds + numOfGolds)*100;
+
+        DevTools.logMessage(classLogger,"Found " + numOfDiamonds + " Diamond(s) and " + numOfGolds + " Gold(s): " + "+" + points + " points", Level.DEBUG);
+
         // Return points awarded
-        return (numOfDiamonds + numOfGolds)*100;
+        return points;
     }
 
     private static int checkForSets(ArrayList<Faces> rollToCheck, boolean[] rollsUsed) {
+
+        DevTools.logMessage(classLogger,"Checking roll set for sets...", Level.DEBUG);
 
         // Point list corresponding to x (x = numberOfDuplicates-1) of a kind dice
         int[] pointList = {0,0,100,200,500,1000,2000,4000};
@@ -108,7 +155,9 @@ public class Points {
             if (currentFace != Faces.SKULL) {
                 int numberOfDuplicates = setLog.get(currentFace);
                 if (numberOfDuplicates >= 3) {
-                    totalPoints += pointList[numberOfDuplicates-1];
+                    int awardPoints = pointList[numberOfDuplicates-1];
+                    DevTools.logMessage(classLogger,currentFace.toString() + ":" + numberOfDuplicates + ":" + "+" + awardPoints + " points", Level.DEBUG);
+                    totalPoints += awardPoints;
                 }
             }
         }

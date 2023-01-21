@@ -23,6 +23,9 @@ public abstract class Player {
 
     private int points;
     private int wins;
+    private int ties;
+
+    private boolean isTurnDone;
 
     // Constructor
     public Player(String playerName, int numberOfDice) {
@@ -31,6 +34,8 @@ public abstract class Player {
         this.playerName = playerName;
         this.points = 0;
         this.wins = 0;
+        this.ties = 0;
+        this.isTurnDone = false;
 
         this.mainNumberOfDice = numberOfDice;
 
@@ -165,6 +170,7 @@ public abstract class Player {
         for (int i = 0; i < this.mainNumberOfDice; i++) {
             this.dices.add(new Dice());
         }
+        this.isTurnDone = false;
     }
 
     // Getters
@@ -174,6 +180,10 @@ public abstract class Player {
 
     public int getWins() {
         return this.wins;
+    }
+
+    public int getTies() {
+        return this.ties;
     }
 
     public ArrayList<Faces> getCurrentRoll() {
@@ -201,6 +211,10 @@ public abstract class Player {
         return this.keptRolls;
     }
 
+    public boolean isTurnDone() {
+        return isTurnDone;
+    }
+
     // Setters
     public void setPoints(int points) {
         this.points = points;
@@ -215,8 +229,21 @@ public abstract class Player {
     public void addWin() {
         this.wins += 1;
     }
+
+    public void addTie() {
+        this.ties += 1;
+    }
+
     public void resetWins() {
         this.wins = 0;
+    }
+
+    public void resetTies() {
+        this.ties = 0;
+    }
+
+    public void endTurn() {
+        this.isTurnDone = true;
     }
 
 }

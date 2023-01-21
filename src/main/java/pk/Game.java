@@ -42,9 +42,13 @@ public class Game {
                 DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
                 do {
-                    DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
-                    currentPlayer.rollDice();
                     if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {
+                        DevTools.logMessage(this.classLogger, "", Level.DEBUG);
+                        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
+                        currentPlayer.rollDice();
+                    }
+                    if (!checkIfTurnEnds(currentPlayer)) {
+                        DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
                         currentPlayer.strategy();
                     } else {
@@ -62,9 +66,18 @@ public class Game {
             // After each turn, check if any win condition has been set
             ArrayList<Player> winConditionedPlayers = Game.getWinConditionPlayers(this.playerList, this.getWinCondition());
 
+            // Assign wins or ties
             if (winConditionedPlayers.size() > 0) {
+                boolean multipleWins = false;
+                if (winConditionedPlayers.size() > 1) {
+                    multipleWins = true;
+                }
                 for (Player currentPlayer : winConditionedPlayers) {
-                    currentPlayer.addWin();
+                    if (multipleWins) {
+                        currentPlayer.addTie();
+                    } else {
+                        currentPlayer.addWin();
+                    }
                 }
 
                 // Resets
@@ -77,8 +90,13 @@ public class Game {
 
     }
 
-    // Method to check if a player has three skulls
+    // Method to check if a player has three skulls or they would like to end their turn
     public static boolean checkIfTurnEnds(Player player) {
+
+        if (player.isTurnDone()) {
+            return true;
+        }
+
         int numberOfSkulls = 0;
         for (Faces face : player.getKeptRolls()) {
             if (face.equals(Faces.SKULL)) {

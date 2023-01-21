@@ -10,7 +10,7 @@
   * To compile the project:
     * `mvn compile`
   * To run the project in development mode:
-    * `mvn exec:java -Dexec.args="random combo"` (here, `-q` tells maven to be _quiet_)
+    * `mvn exec:java -Dexec.args=”random combo”` (here, `-q` tells maven to be _quiet_)
   * To package the project as a turn-key artefact:
     * `mvn package`
   * To run the packaged delivery:
