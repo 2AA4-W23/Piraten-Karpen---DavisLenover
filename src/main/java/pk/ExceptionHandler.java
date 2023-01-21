@@ -11,9 +11,14 @@ public class ExceptionHandler {
     // Handle setup exceptions
     public static void handleException(SetupException exception) {
 
+        if (!DevTools.isLoggingEnabled()) {
+            System.out.println("Whoops! We ran into a problem!");
+            System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as an argument.");
+        }
+
         boolean isFatal = false;
 
-        DevTools.logMessage(classLogger,"A SetupException occured! Message: " + exception.getMessage(),exception.getServerityLevel());
+        DevTools.logMessage(classLogger,"A SetupException occured!" + " Exception: " + exception.toString(),exception.getServerityLevel());
 
         printStackTrace(exception);
 

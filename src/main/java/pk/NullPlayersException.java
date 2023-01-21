@@ -2,10 +2,11 @@ package pk;
 
 import org.apache.logging.log4j.Level;
 
-public class UnknownPlayerException extends SetupException {
+public class NullPlayersException extends SetupException {
 
     private final Level serverityLevel = Level.FATAL;
-    public UnknownPlayerException(String unknownPlayerMessage) {
+
+    public NullPlayersException(String unknownPlayerMessage) {
         super(unknownPlayerMessage);
     }
 

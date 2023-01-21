@@ -10,16 +10,24 @@
   * To compile the project:
     * `mvn compile`
   * To run the project in development mode:
-    * `mvn exec:java -Dexec.args=”random combo”` (here, `-q` tells maven to be _quiet_)
+    * `mvn -q exec:java` (here, `-q` tells maven to be _quiet_)
   * To package the project as a turn-key artefact:
     * `mvn package`
   * To run the packaged delivery:
-    * `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo` 
+    * `java -jar target/piraten-karpen-jar-with-dependencies.jar`
 
 Remark: **We are assuming here you are using a _real_ shell (e.g., anything but PowerShell on Windows)**
 
+## Game Setup
+* To start a game, please list type of players (separated by a space) in the entry arguments of the program
+* One argument is equivalent to one player
+* Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo` specifies that there is one random player and one combo player
+* `mvn exec:java -Dexec.args=”random combo”` also specifies two players with corresponding strategies
+
 ## Trace Mode
- * Trace mode is available by running the main method in PiratenKarpen with argument `traceActive`
+ * Trace mode allows users to view what is happening with regards to both player logic and general logic as a game progresses
+ * Trace mode is available by running the main method in PiratenKarpen with argument `traceActive` in any position
+ * Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo traceActive`
  **NOTE: This WILL produce a very large output log to console if the amount of rounds played is high!**
 
 ## Feature Backlog
@@ -56,5 +64,5 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | MVP? | Id  | Feature  | Status  |  Started  | Delivered |
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
 | x   | F08 | Multiple dice pairs/combination rewards |  D | 18/01/23 | 19/01/23 |
-| x   | F09 | Player maximize combo strategy |  S | 18/01/23 | |
-| x   | F10 | Allow user to choose player strategies via command line |  S | 20/01/23 | |
+| x   | F09 | Player maximize combo strategy |  D | 18/01/23 | 21/01/23 |
+| x   | F10 | Allow user to choose player strategies via command line |  D | 20/01/23 | 21/01/23 |

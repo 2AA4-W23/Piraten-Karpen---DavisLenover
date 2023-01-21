@@ -13,8 +13,6 @@ public class PiratenKarpen {
 
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
-        System.out.println(args[0]);
-
         try {
             Game game = new Game(42, 6000, Player.createAllPlayers(args));
             game.playGame();

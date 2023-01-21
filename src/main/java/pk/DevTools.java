@@ -20,7 +20,15 @@ public class DevTools {
     public static void enableLogging() {
         if (!isLogging) {
             isLogging = true;
-            logMessage(classLogger, "Trace mode has been enabled! Player actions will be traced to console.", Level.INFO);
+            logMessage(classLogger, "Trace mode has been enabled!", Level.INFO);
+        }
+    }
+
+    public static boolean isLoggingEnabled() {
+        if (isLogging) {
+            return true;
+        } else {
+            return false;
         }
     }
 
