@@ -1,6 +1,6 @@
 package pk;
 
-public class Card {
+public abstract class Card {
 
     public FortuneCards cardType;
 
@@ -12,5 +12,6 @@ public class Card {
         return this.cardType;
     }
 
+    public abstract void cardEffect(Player player);
 
 }
