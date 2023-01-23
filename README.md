@@ -68,4 +68,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F10 | Allow user to choose player strategies via command line |  D | 20/01/23 | 21/01/23 |
 | x   | F11 | Add card deck |  S | 23/01/23 |  |
 | x   | F12 | Allow user to draw a card |  S | 23/01/23 |  |
-| x   | F13 | Add Sea-battle card logic |  B(F12) | 23/01/23 |  |
+| x   | F13 | Add Sea-battle card logic |  B(F12) |  |  |
