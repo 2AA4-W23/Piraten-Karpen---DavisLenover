@@ -16,7 +16,9 @@ public class Game {
     private int currentRoundNumber;
     private int winCondition;
 
-    public Game(int numberOfRounds, int winCondition, List<Player> players) throws NullPlayersException {
+    private CardDeck deck;
+
+    public Game(int numberOfRounds, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException {
 
         if (players.isEmpty()) {
             throw new NullPlayersException("Player list is empty. Was there any command line arguments?");
@@ -26,6 +28,7 @@ public class Game {
         this.numberOfRounds = numberOfRounds;
         this.currentRoundNumber = 0;
         this.winCondition = winCondition;
+        this.deck = deck;
         for (Player currentPlayer : players) {
             DevTools.logMessage(this.classLogger,"Found player: " + currentPlayer.getPlayerName(),Level.DEBUG);
             this.playerList.add(currentPlayer);
@@ -47,6 +50,8 @@ public class Game {
             int lastRoundTimer = 2;
             boolean isLastRound = false;
 
+            deck.shuffleDeck();
+
             while (lastRoundTimer != 0) {
 
                 // Each player rolls dice and uses a strategy for keeping dice
@@ -55,6 +60,10 @@ public class Game {
                         DevTools.logMessage(this.classLogger,"", Level.DEBUG);
                         DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
+
+                        // Draw a card and apply any effects of the card to the player specifically
+                        currentPlayer.drawCard(deck);
+                        currentPlayer.getCard().cardEffect(currentPlayer);
                         do {
                             if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
@@ -71,7 +80,7 @@ public class Game {
                         } while (currentPlayer.getNumberOfSkulls() <= 2 && currentPlayer.getKeptRolls().size() < 8);
 
                         // Add points and reset player dice at the end of their turn
-                        currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls()));
+                        currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls(), currentPlayer.getCard()));
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                         currentPlayer.resetDice();
 

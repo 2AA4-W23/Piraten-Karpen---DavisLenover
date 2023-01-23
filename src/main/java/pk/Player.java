@@ -162,8 +162,12 @@ public abstract class Player {
     }
 
     // Method to draw a card from a given card deck
-    public void drawCard(CardDeck deck) throws EmptyDeckException {
+    public void drawCard(CardDeck deck) {
         this.currentCard = deck.drawCard();
+    }
+
+    public Card getCard() {
+        return this.currentCard;
     }
 
     // Method for player strategy

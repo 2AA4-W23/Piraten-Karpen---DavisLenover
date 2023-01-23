@@ -27,7 +27,7 @@ public class Points {
             in addition to the score they made. */
 
     // Method to calculate how many points a given set of rolls is currently worth
-    public static int calculatePoints(ArrayList<Faces> rollsToCheck) {
+    public static int calculatePoints(ArrayList<Faces> rollsToCheck, Card card) {
 
         DevTools.logMessage(classLogger,"", Level.DEBUG);
         DevTools.logMessage(classLogger,"Checking roll set for points: " + rollsToCheck, Level.DEBUG);
@@ -35,6 +35,16 @@ public class Points {
         int awardedPoints = 0;
 
         int keptRollsSize = rollsToCheck.size();
+
+        // Check if the cards had any effect on the points
+        HashMap<ArrayList<Faces>,Integer> newRollSet = checkCardEffects(rollsToCheck,card);
+
+        // Returns a new rollsToCheck in case some rolls need to be ingnored
+        rollsToCheck = newRollSet.entrySet().iterator().next().getKey();
+
+        // Add corresponding points
+        awardedPoints += newRollSet.get(rollsToCheck);
+
 
         // First check if the roll set has 3 skulls
         if (keptRollsSize >= 3) {
@@ -74,6 +84,42 @@ public class Points {
 
         DevTools.logMessage(classLogger,"Total awarded points: " + awardedPoints, Level.DEBUG);
         return awardedPoints;
+
+    }
+
+    private static HashMap<ArrayList<Faces>, Integer> checkCardEffects(ArrayList<Faces> rollsToCheck, Card card) {
+
+        if (card.getCardType() == FortuneCards.SEA_BATTLE) {
+
+                SeaBattleCard seaBattleCard = (SeaBattleCard) card;
+
+                int sabersNeeded = seaBattleCard.getNumberOfSabers();
+                int numberOfSabersInRoll = 0;
+
+                for (Faces currentFace : rollsToCheck) {
+                    if (currentFace == Faces.SABER) {
+                        numberOfSabersInRoll++;
+                    }
+                }
+
+                if (numberOfSabersInRoll >= sabersNeeded) {
+                    HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
+                    returnMap.put(rollsToCheck, seaBattleCard.getBonusPoints());
+
+                    return returnMap;
+
+                } else {
+                    HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
+                    returnMap.put(removeAllRolls(rollsToCheck,Faces.SABER), seaBattleCard.getBonusPoints()*(-1));
+
+                    return returnMap;
+                }
+
+        } else {
+            HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
+            returnMap.put(rollsToCheck, 0);
+            return returnMap;
+        }
 
     }
 
@@ -186,5 +232,31 @@ public class Points {
         return totalPoints;
 
     }
+
+
+    // Method to remove any rolls to exclude from set point calculation
+    private static ArrayList<Faces> removeAllRolls(ArrayList<Faces> rollSet, Faces rollTypeToRemove) {
+
+        while (rollSet.contains(rollTypeToRemove)) {
+            int currentRollIndex = 0;
+
+            // Check if the requested dice to remove even exists
+            for (Faces currentRoll : rollSet) {
+
+                if (currentRoll == rollTypeToRemove) {
+                    // If it does, we have the index value to remove so break
+                    break;
+                }
+                currentRollIndex++;
+            }
+
+            // Remove the roll from the currentRoll array list afterwards
+            rollSet.remove(currentRollIndex);
+        }
+
+        return rollSet;
+
+    }
+
 
 }

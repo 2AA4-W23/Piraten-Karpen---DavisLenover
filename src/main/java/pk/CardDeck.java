@@ -14,32 +14,43 @@ public class CardDeck {
     }
 
 
-    public void shuffleDeck() throws EmptyDeckException {
-        if (this.cardDeck.size() > 0) {
-            Collections.shuffle(this.cardDeck);
-        } else {
-            throw new EmptyDeckException("Card deck empty! Re-adding cards is necessary", this);
+    public void shuffleDeck() {
+
+        if (this.cardDeck.size() == 0) {
+            try {
+                fillDeck();
+            } catch (Exception exception) {
+                ExceptionHandler.handleException(exception);
+            }
         }
+
+        Collections.shuffle(this.cardDeck);
     }
 
 
-    public Card drawCard() throws EmptyDeckException {
-        if (this.cardDeck.size() > 0) {
-            Card cardToReturn = this.cardDeck.get(0);
-            this.cardDeck.remove(0);
-            return cardToReturn;
-        } else {
-            throw new EmptyDeckException("Card deck empty! Re-adding cards is necessary", this);
+    public Card drawCard() {
+
+        if (this.cardDeck.size() == 0) {
+            try {
+                fillDeck();
+            } catch (Exception exception) {
+                ExceptionHandler.handleException(exception);
+            }
         }
+
+        Card cardToReturn = this.cardDeck.get(0);
+        this.cardDeck.remove(0);
+        return cardToReturn;
+
     }
 
     public void fillDeck() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         // Create Hashmap for each card type and how many there should be
         HashMap<Card,Integer> cardLegend = new HashMap<Card,Integer>();
-        cardLegend.put(new SeaBattleCard(2),2);
-        cardLegend.put(new SeaBattleCard(3),2);
-        cardLegend.put(new SeaBattleCard(4),2);
+        cardLegend.put(new SeaBattleCard(2,300),2);
+        cardLegend.put(new SeaBattleCard(3,500),2);
+        cardLegend.put(new SeaBattleCard(4,1000),2);
         cardLegend.put(new NopCard(),29);
 
         // Loop through every card type
@@ -49,7 +60,7 @@ public class CardDeck {
                 // To add the card, create a new instance of it
                 // Check main card instance for passing parameters into constructor
                 if (currentCard instanceof SeaBattleCard) {
-                    cardDeck.add(currentCard.getClass().getConstructor().newInstance(((SeaBattleCard) currentCard).getNumberOfSabers()));
+                    cardDeck.add(currentCard.getClass().getConstructor().newInstance(((SeaBattleCard) currentCard).getNumberOfSabers(),((SeaBattleCard) currentCard).getBonusPoints()));
                 } else {
                     cardDeck.add(currentCard.getClass().getConstructor().newInstance());
                 }
