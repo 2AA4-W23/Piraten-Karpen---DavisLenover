@@ -21,6 +21,8 @@ public abstract class Player {
     private ArrayList<Faces> currentRoll;
     private ArrayList<Faces> keptRolls;
 
+    private Card currentCard;
+
     private int points;
     private int wins;
     private int ties;
@@ -157,6 +159,11 @@ public abstract class Player {
             this.getDices().remove(0);
         }
 
+    }
+
+    // Method to draw a card from a given card deck
+    public void drawCard(CardDeck deck) throws EmptyDeckException {
+        this.currentCard = deck.drawCard();
     }
 
     // Method for player strategy

@@ -37,16 +37,22 @@ public class CardDeck {
 
         // Create Hashmap for each card type and how many there should be
         HashMap<Card,Integer> cardLegend = new HashMap<Card,Integer>();
-        cardLegend.put(new SeaBattleCard(),6);
+        cardLegend.put(new SeaBattleCard(2),2);
+        cardLegend.put(new SeaBattleCard(3),2);
+        cardLegend.put(new SeaBattleCard(4),2);
         cardLegend.put(new NopCard(),29);
 
         // Loop through every card type
         for (Card currentCard : cardLegend.keySet()) {
-
             // Add x amount of cards to the card deck
             for (int numOfCard = 1; numOfCard <= cardLegend.get(currentCard); numOfCard++) {
                 // To add the card, create a new instance of it
-                cardDeck.add(currentCard.getClass().getConstructor().newInstance());
+                // Check main card instance for passing parameters into constructor
+                if (currentCard instanceof SeaBattleCard) {
+                    cardDeck.add(currentCard.getClass().getConstructor().newInstance(((SeaBattleCard) currentCard).getNumberOfSabers()));
+                } else {
+                    cardDeck.add(currentCard.getClass().getConstructor().newInstance());
+                }
             }
         }
 
