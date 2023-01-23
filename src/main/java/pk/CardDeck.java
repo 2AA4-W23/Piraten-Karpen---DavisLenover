@@ -9,12 +9,8 @@ public class CardDeck {
 
     private ArrayList<Card> cardDeck;
 
-    public CardDeck() {
-        try {
-            fillDeck();
-        } catch (Exception exception) {
-            ExceptionHandler.handleException(exception);
-        }
+    public CardDeck() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        fillDeck();
     }
 
 
