@@ -1,24 +1,28 @@
 package pk;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlayerSaber extends PlayerCombo {
 
+    Logger classLogger = LogManager.getLogger(PlayerSaber.class);
 
     public PlayerSaber(String playerName, int numberOfDice) {
         super(playerName, numberOfDice);
     }
 
+    // Overridden strategy from PlayerCombo class (super class of PlayerSaber)
     public void strategy() {
 
         // This strategy is a mutation of the PlayerCombo class strategy
         // Check if the player has a saber card and if so check how many sabers are needed to win points
         // Only choose saber rolls to keep until amount of sabers needed is met
 
-        // If not, just use PlayerCombo strategy
+        // else, just use PlayerCombo strategy
 
         if (this.getCard().getCardType() == FortuneCards.SEA_BATTLE) {
 
@@ -32,6 +36,9 @@ public class PlayerSaber extends PlayerCombo {
 
             // Check if amount of sabers has not been obtained yet
             if (keptCombinations.get(Faces.SABER) < ((SeaBattleCard) this.getCard()).getNumberOfSabers()) {
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER.toString() + " needed: " + ((SeaBattleCard) this.getCard()).getNumberOfSabers(), Level.DEBUG);
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER.toString() + " kept: " + keptCombinations.get(Faces.SABER), Level.DEBUG);
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Not enough " + Faces.SABER.toString() + " yet...", Level.DEBUG);
                 // Keep checking for sabers and if they appear, keep them
                 int faceCount = rolledCombinations.get(Faces.SABER);
                 if (faceCount >= 1) {
@@ -39,9 +46,11 @@ public class PlayerSaber extends PlayerCombo {
                     super.keepAllRolls(Faces.SABER);
                 }
             } else {
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Strategy satisfied, using default combo strategy...", Level.DEBUG);
                 super.strategy();
             }
         } else {
+            DevTools.logMessage(this.classLogger, super.getPlayerName() + ": No " + Faces.SABER.toString() + " card, using default combo strategy...", Level.DEBUG);
             super.strategy();
         }
     }
