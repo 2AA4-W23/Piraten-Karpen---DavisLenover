@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 // This is abstract as players can have different strategies
@@ -159,6 +160,23 @@ public abstract class Player {
             this.getDices().remove(0);
         }
 
+    }
+
+    public HashMap<Faces,Integer> checkCombinations(ArrayList<Faces> rolls) {
+        // Setup HashMap to keep track of all face duplicates in the roll
+        HashMap<Faces,Integer> setLog = new HashMap<Faces,Integer>();
+
+        for (Faces currentFace : Faces.values()) {
+            setLog.put(currentFace,0);
+        }
+
+        // Count all faces
+        for (Faces currentRoll : rolls) {
+            // Add 1 to the count of that specific face
+            setLog.put(currentRoll,setLog.get(currentRoll) + 1);
+        }
+
+        return setLog;
     }
 
     // Method to draw a card from a given card deck

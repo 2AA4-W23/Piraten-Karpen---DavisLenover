@@ -64,22 +64,5 @@ public class PlayerCombo extends Player {
 
     }
 
-    private HashMap<Faces,Integer> checkCombinations(ArrayList<Faces> rolls) {
-        // Setup HashMap to keep track of all face duplicates in the roll
-        HashMap<Faces,Integer> setLog = new HashMap<Faces,Integer>();
-
-        for (Faces currentFace : Faces.values()) {
-            setLog.put(currentFace,0);
-        }
-
-        // Count all faces
-        for (Faces currentRoll : rolls) {
-            // Add 1 to the count of that specific face
-            setLog.put(currentRoll,setLog.get(currentRoll) + 1);
-        }
-
-        return setLog;
-    }
-
 
 }
