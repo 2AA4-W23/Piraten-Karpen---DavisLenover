@@ -17,13 +17,19 @@ public class ExceptionHandler {
 
         DevTools.logMessage(classLogger,"A SetupException occured!" + " Exception: " + exception.toString(),exception.getServerityLevel());
 
-        printStackTrace(exception);
-
         if (exception.getServerityLevel() == Level.FATAL) {
             if (!DevTools.isLoggingEnabled()) {
                 System.out.println("Whoops! We ran into a problem!");
-                System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as an argument.");
+                if (exception instanceof UnknownPlayerException) {
+                    System.out.println("It seems we cannot understand the passed arguments!");
+                    System.out.println(exception.getMessage());
+                } else if (exception instanceof NullPlayersException) {
+                    System.out.println("It seems we could not detect any passed arguments!");
+                    System.out.println(exception.getMessage());
+                }
+                System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as the first argument.");
             }
+
             isFatal = true;
         }
 
@@ -71,7 +77,7 @@ public class ExceptionHandler {
 
         if (!DevTools.isLoggingEnabled()) {
             System.out.println("Whoops! We ran into a problem!");
-            System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as an argument.");
+            System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as the first argument.");
         }
 
         DevTools.logMessage(classLogger,"A general exception occured!" + " Exception: " + exception.toString(),Level.FATAL);
