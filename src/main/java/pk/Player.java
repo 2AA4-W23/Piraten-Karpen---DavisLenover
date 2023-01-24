@@ -62,7 +62,9 @@ public abstract class Player {
             if (listOfPlayerTypes[index].contains("random")) {
                 createdPlayerList.add(new PlayerRandom("PlayerRandom" + index,8));
             } else if (listOfPlayerTypes[index].contains("combo")) {
-                createdPlayerList.add(new PlayerCombo("PlayerCombo" + index,8));
+                createdPlayerList.add(new PlayerCombo("PlayerCombo" + index, 8));
+            } else if (listOfPlayerTypes[index].contains("saber")) {
+                createdPlayerList.add(new PlayerSaber("PlayerSaber" + index, 8));
             } else if (listOfPlayerTypes[index].contains("traceActive")) {
                 DevTools.enableLogging();
             } else {
