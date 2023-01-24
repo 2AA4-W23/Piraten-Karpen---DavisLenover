@@ -66,12 +66,12 @@ public class Game {
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Drew a " + currentPlayer.getCard().getCardType().toString() + " card", Level.DEBUG);
                         currentPlayer.getCard().cardEffect(currentPlayer);
                         do {
-                            if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {
+                            if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer) && currentPlayer.getNumberOfSkulls() <= 2) {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
                                 currentPlayer.rollDice();
                             }
-                            if (!checkIfTurnEnds(currentPlayer)) {
+                            if (!checkIfTurnEnds(currentPlayer) && currentPlayer.getNumberOfSkulls() <= 2) {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
                                 currentPlayer.strategy();

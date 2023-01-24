@@ -7,11 +7,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlayerSaber extends PlayerCombo {
+public class PlayerSeaBattle extends PlayerCombo {
 
-    Logger classLogger = LogManager.getLogger(PlayerSaber.class);
+    Logger classLogger = LogManager.getLogger(PlayerSeaBattle.class);
 
-    public PlayerSaber(String playerName, int numberOfDice) {
+    public PlayerSeaBattle(String playerName, int numberOfDice) {
         super(playerName, numberOfDice);
     }
 

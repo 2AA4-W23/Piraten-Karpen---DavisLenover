@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 // This is abstract as players can have different strategies
 // Any methods implemented are the same for every player
@@ -63,8 +62,8 @@ public abstract class Player {
                 createdPlayerList.add(new PlayerRandom("PlayerRandom" + index,8));
             } else if (listOfPlayerTypes[index].contains("combo")) {
                 createdPlayerList.add(new PlayerCombo("PlayerCombo" + index, 8));
-            } else if (listOfPlayerTypes[index].contains("saber")) {
-                createdPlayerList.add(new PlayerSaber("PlayerSaber" + index, 8));
+            } else if (listOfPlayerTypes[index].contains("seabattle")) {
+                createdPlayerList.add(new PlayerSeaBattle("PlayerSeaBattle" + index, 8));
             } else if (listOfPlayerTypes[index].contains("traceActive")) {
                 DevTools.enableLogging();
             } else {
