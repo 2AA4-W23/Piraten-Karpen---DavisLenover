@@ -8,5 +8,5 @@ public abstract class GameException extends Exception {
         super(message);
     }
 
-    public abstract Level getServerityLevel();
+    public abstract Level getSeverityLevel();
 }

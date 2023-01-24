@@ -25,11 +25,7 @@ public class DevTools {
     }
 
     public static boolean isLoggingEnabled() {
-        if (isLogging) {
-            return true;
-        } else {
-            return false;
-        }
+        return isLogging;
     }
 
 }

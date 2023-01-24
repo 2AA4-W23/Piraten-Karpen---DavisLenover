@@ -4,13 +4,13 @@ import org.apache.logging.log4j.Level;
 
 public class NullPlayersException extends SetupException {
 
-    private final Level serverityLevel = Level.FATAL;
+    private final Level severityLevel = Level.FATAL;
 
     public NullPlayersException(String unknownPlayerMessage) {
         super(unknownPlayerMessage);
     }
 
-    public Level getServerityLevel() {
-        return serverityLevel;
+    public Level getSeverityLevel() {
+        return severityLevel;
     }
 }

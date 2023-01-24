@@ -4,12 +4,12 @@ import org.apache.logging.log4j.Level;
 
 public class UnknownPlayerException extends SetupException {
 
-    private final Level serverityLevel = Level.FATAL;
+    private final Level severityLevel = Level.FATAL;
     public UnknownPlayerException(String unknownPlayerMessage) {
         super(unknownPlayerMessage);
     }
 
-    public Level getServerityLevel() {
-        return serverityLevel;
+    public Level getSeverityLevel() {
+        return severityLevel;
     }
 }

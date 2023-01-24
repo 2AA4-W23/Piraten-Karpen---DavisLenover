@@ -1,6 +1,5 @@
 package pk;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,13 +36,13 @@ public class CardDeck {
     public void fillDeck() {
 
         // Create Hashmap for each card type and how many there should be
-        HashMap<Card,Integer> cardLegend = new HashMap<Card,Integer>();
+        HashMap<Card,Integer> cardLegend = new HashMap<>();
         cardLegend.put(new SeaBattleCard(2,300),2);
         cardLegend.put(new SeaBattleCard(3,500),2);
         cardLegend.put(new SeaBattleCard(4,1000),2);
         cardLegend.put(new NopCard(),29);
 
-        this.cardDeck = new ArrayList<Card>();
+        this.cardDeck = new ArrayList<>();
 
         // Loop through every card type
         for (Card currentCard : cardLegend.keySet()) {

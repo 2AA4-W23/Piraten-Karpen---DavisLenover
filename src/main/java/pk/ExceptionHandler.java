@@ -4,8 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class ExceptionHandler {
 
     private final static Logger classLogger = LogManager.getLogger(ExceptionHandler.class);
@@ -15,9 +13,9 @@ public class ExceptionHandler {
 
         boolean isFatal = false;
 
-        DevTools.logMessage(classLogger,"A SetupException occured!" + " Exception: " + exception.toString(),exception.getServerityLevel());
+        DevTools.logMessage(classLogger,"A SetupException occurred!" + " Exception: " + exception.toString(),exception.getSeverityLevel());
 
-        if (exception.getServerityLevel() == Level.FATAL) {
+        if (exception.getSeverityLevel() == Level.FATAL) {
             // If logging is not enabled then it is useful to display important messages via print
             if (!DevTools.isLoggingEnabled()) {
                 System.out.println("Whoops! We ran into a problem!");
@@ -46,11 +44,11 @@ public class ExceptionHandler {
 
         boolean isFatal = false;
 
-        DevTools.logMessage(classLogger,"A GameException occured!" + " Exception: " + exception.toString(),exception.getServerityLevel());
+        DevTools.logMessage(classLogger,"A GameException occurred!" + " Exception: " + exception.toString(),exception.getSeverityLevel());
 
-        if (exception.getServerityLevel() == Level.FATAL) {
+        if (exception.getSeverityLevel() == Level.FATAL) {
             isFatal = true;
-        } else if (exception.getServerityLevel() == Level.WARN) {
+        } else if (exception.getSeverityLevel() == Level.WARN) {
 
         }
 
@@ -70,7 +68,7 @@ public class ExceptionHandler {
             System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as the first argument.");
         }
 
-        DevTools.logMessage(classLogger,"A general exception occured!" + " Exception: " + exception.toString(),Level.FATAL);
+        DevTools.logMessage(classLogger,"A general exception occurred!" + " Exception: " + exception.toString(),Level.FATAL);
 
         DevTools.logMessage(classLogger,"Error was fatal, as such, program will not continue...",Level.FATAL);
         System.exit(0);
@@ -81,11 +79,11 @@ public class ExceptionHandler {
 
     // Print setup exception stack traces
     private static void printStackTrace(SetupException exception) {
-        DevTools.logMessage(classLogger,"|----------StackTrace----------|",exception.getServerityLevel());
+        DevTools.logMessage(classLogger,"|----------StackTrace----------|",exception.getSeverityLevel());
         for (int index = 0; index < exception.getStackTrace().length; index++) {
-            DevTools.logMessage(classLogger, String.valueOf(exception.getStackTrace()[index]),exception.getServerityLevel());
+            DevTools.logMessage(classLogger, String.valueOf(exception.getStackTrace()[index]),exception.getSeverityLevel());
         }
-        DevTools.logMessage(classLogger,"|----------End StackTrace----------|",exception.getServerityLevel());
+        DevTools.logMessage(classLogger,"|----------End StackTrace----------|",exception.getSeverityLevel());
     }
 
     // Print stack trace for general exceptions

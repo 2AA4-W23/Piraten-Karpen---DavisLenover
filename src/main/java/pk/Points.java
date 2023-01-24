@@ -11,7 +11,7 @@ import java.util.HashMap;
 // The purpose of this class is to house all the necessary methods for point calculation
 public class Points {
 
-    private static Logger classLogger = LogManager.getLogger(Points.class);
+    private final static Logger classLogger = LogManager.getLogger(Points.class);
 
     /*There are three ways to score points:
 
@@ -23,7 +23,7 @@ public class Points {
             2. Diamonds and Gold: Each diamond and each gold coin is worth 100 points (even if not part of a set).
             Therefore, sets of diamonds and gold coins score twice: First for their face value and then for the sets they make.
 
-            3. Full Chest: A player who generates points with all eight dice re-ceives a bonus of 500 points
+            3. Full Chest: A player who generates points with all eight dice receives a bonus of 500 points
             in addition to the score they made. */
 
     // Method to calculate how many points a given set of rolls is currently worth
@@ -67,7 +67,7 @@ public class Points {
             boolean fullChest = true;
             // Check if all dice were used (must be 8 too!)
             for (boolean currentBool : rollsUsed) {
-                if (currentBool == false) {
+                if (!currentBool) {
                     // If not subtract the 500 points awarded
                     fullChest = false;
                     break;
@@ -98,7 +98,7 @@ public class Points {
             int sabersNeeded = seaBattleCard.getNumberOfSabers();
             int numberOfSabersInRoll = 0;
 
-            DevTools.logMessage(classLogger,"Checking if roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
+            DevTools.logMessage(classLogger,"Checking if roll has " + sabersNeeded + " " + Faces.SABER, Level.DEBUG);
 
             for (Faces currentFace : rollsToCheck) {
                 if (currentFace == Faces.SABER) {
@@ -110,7 +110,7 @@ public class Points {
 
                 int pointsToAward = seaBattleCard.getBonusPoints();
 
-                DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER, Level.DEBUG);
                 DevTools.logMessage(classLogger,"+" + pointsToAward + " points", Level.DEBUG);
 
                 return pointsToAward;
@@ -119,7 +119,7 @@ public class Points {
 
                 int pointsToAward = seaBattleCard.getBonusPoints()*(-1);
 
-                DevTools.logMessage(classLogger,"Roll does not have " + sabersNeeded + " or more " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"Roll does not have " + sabersNeeded + " or more " + Faces.SABER, Level.DEBUG);
                 DevTools.logMessage(classLogger,"-" + pointsToAward + " points", Level.DEBUG);
 
                 return pointsToAward;
@@ -142,11 +142,7 @@ public class Points {
             }
         }
 
-        if (numberOfSkulls >= 3) {
-            return true;
-        }
-
-        return false;
+        return numberOfSkulls >= 3;
 
     }
 
@@ -195,7 +191,7 @@ public class Points {
         int totalPoints = 0;
 
         // Setup HashMap to keep track of all face duplicates in the roll
-        HashMap<Faces,Integer> setLog = new HashMap<Faces,Integer>();
+        HashMap<Faces,Integer> setLog = new HashMap<>();
         for (Faces currentFace : Faces.values()) {
             setLog.put(currentFace,0);
         }
@@ -242,31 +238,4 @@ public class Points {
         return totalPoints;
 
     }
-
-
-    // Method to remove any rolls to exclude from set point calculation
-    private static ArrayList<Faces> removeAllRolls(ArrayList<Faces> rollSet, Faces rollTypeToRemove) {
-
-        while (rollSet.contains(rollTypeToRemove)) {
-            int currentRollIndex = 0;
-
-            // Check if the requested dice to remove even exists
-            for (Faces currentRoll : rollSet) {
-
-                if (currentRoll == rollTypeToRemove) {
-                    // If it does, we have the index value to remove so break
-                    break;
-                }
-                currentRollIndex++;
-            }
-
-            // Remove the roll from the currentRoll array list afterwards
-            rollSet.remove(currentRollIndex);
-        }
-
-        return rollSet;
-
-    }
-
-
 }

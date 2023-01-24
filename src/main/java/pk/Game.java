@@ -12,12 +12,12 @@ public class Game {
     // Declarations
     Logger classLogger = LogManager.getLogger(Game.class);
 
-    private ArrayList<Player> playerList;
-    private int numberOfRounds;
+    private final ArrayList<Player> playerList;
+    private final int numberOfRounds;
     private int currentRoundNumber;
-    private int winCondition;
+    private final int winCondition;
 
-    private CardDeck deck;
+    private final CardDeck deck;
 
     public Game(int numberOfRounds, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException {
 
@@ -32,7 +32,7 @@ public class Game {
         this.deck = deck;
 
         // Add players to game
-        this.playerList = new ArrayList<Player>();
+        this.playerList = new ArrayList<>();
         for (Player currentPlayer : players) {
             DevTools.logMessage(this.classLogger,"Found player: " + currentPlayer.getPlayerName(),Level.DEBUG);
             this.playerList.add(currentPlayer);
@@ -97,8 +97,8 @@ public class Game {
                     }
 
                     // After the player's turn, check if they set a win condition
-                    if (isWinConditionSatisfied(currentPlayer,this.getWinCondition()) && isLastRound != true){
-                        // If so, last round is true and we set endTurn for the player to true
+                    if (isWinConditionSatisfied(currentPlayer,this.getWinCondition()) && !isLastRound){
+                        // If so, last round is true, and we set endTurn for the player to true
                         // Thus they cannot play on the next iteration of this loop
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Set a win condition! One more turn for rest of players!", Level.DEBUG);
                         isLastRound = true;
@@ -114,10 +114,7 @@ public class Game {
 
             // Assign wins or ties
             if (winConditionedPlayers.size() > 0) {
-                boolean multipleWins = false;
-                if (winConditionedPlayers.size() > 1) {
-                    multipleWins = true;
-                }
+                boolean multipleWins = winConditionedPlayers.size() > 1;
                 for (Player currentPlayer : winConditionedPlayers) {
                     if (multipleWins) {
                         currentPlayer.addTie();
@@ -151,20 +148,12 @@ public class Game {
         }
 
         // Check if they have no more dice to roll
-        if (player.getDices().size() == 0) {
-            return true;
-        }
-
-        return false;
+        return player.getDices().size() == 0;
 
     }
 
     private boolean isWinConditionSatisfied(Player player, int winCondition) {
-        if (player.getPoints() >= winCondition) {
-            return true;
-        } else {
-            return false;
-        }
+        return player.getPoints() >= winCondition;
     }
 
     // Method to calculate all players that won the game
@@ -172,7 +161,7 @@ public class Game {
     private ArrayList<Player> getWinConditionPlayers(ArrayList<Player> players, int winCondition) {
 
         // Variable declaration
-        ArrayList<Player> winningPlayers = new ArrayList<Player>();
+        ArrayList<Player> winningPlayers = new ArrayList<>();
 
         // Go through list of players
         for (Player currentPlayer : players) {
@@ -188,7 +177,7 @@ public class Game {
 
             // Variable declaration
             Player highestScoringPlayer = null;
-            ArrayList<Player> tiedPlayers = new ArrayList<Player>();
+            ArrayList<Player> tiedPlayers = new ArrayList<>();
 
             // Go through all winning players and check who has higher points or tied
             for (Player currentPlayer : winningPlayers) {
@@ -215,7 +204,7 @@ public class Game {
                 return tiedPlayers;
             } else {
                 // If not, return arraylist with the highest scoring player
-                ArrayList<Player> highestPlayer = new ArrayList<Player>();
+                ArrayList<Player> highestPlayer = new ArrayList<>();
                 highestPlayer.add(highestScoringPlayer);
                 return highestPlayer;
             }

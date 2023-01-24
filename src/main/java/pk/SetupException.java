@@ -8,6 +8,6 @@ public abstract class SetupException extends Exception {
         super(message);
     }
 
-    public abstract Level getServerityLevel();
+    public abstract Level getSeverityLevel();
 
 }

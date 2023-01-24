@@ -36,13 +36,13 @@ public class PlayerSeaBattle extends PlayerCombo {
 
             // Check if amount of sabers has not been obtained yet
             if (keptCombinations.get(Faces.SABER) < ((SeaBattleCard) this.getCard()).getNumberOfSabers()) {
-                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER.toString() + " needed: " + ((SeaBattleCard) this.getCard()).getNumberOfSabers(), Level.DEBUG);
-                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER.toString() + " kept: " + keptCombinations.get(Faces.SABER), Level.DEBUG);
-                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Not enough " + Faces.SABER.toString() + " yet...", Level.DEBUG);
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER + " needed: " + ((SeaBattleCard) this.getCard()).getNumberOfSabers(), Level.DEBUG);
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": " + Faces.SABER + " kept: " + keptCombinations.get(Faces.SABER), Level.DEBUG);
+                DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Not enough " + Faces.SABER + " yet...", Level.DEBUG);
                 // Keep checking for sabers and if they appear, keep them
                 int faceCount = rolledCombinations.get(Faces.SABER);
                 if (faceCount >= 1) {
-                    DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Found set of another " + faceCount + " " + Faces.SABER.toString() + " to keep", Level.DEBUG);
+                    DevTools.logMessage(this.classLogger, super.getPlayerName() + ": Found set of another " + faceCount + " " + Faces.SABER + " to keep", Level.DEBUG);
                     super.keepAllRolls(Faces.SABER);
                 }
             } else {
@@ -50,7 +50,7 @@ public class PlayerSeaBattle extends PlayerCombo {
                 super.strategy();
             }
         } else {
-            DevTools.logMessage(this.classLogger, super.getPlayerName() + ": No " + Faces.SABER.toString() + " card, using default combo strategy...", Level.DEBUG);
+            DevTools.logMessage(this.classLogger, super.getPlayerName() + ": No " + Faces.SABER + " card, using default combo strategy...", Level.DEBUG);
             super.strategy();
         }
     }

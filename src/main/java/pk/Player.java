@@ -14,10 +14,10 @@ public abstract class Player {
     private final Logger classLogger = LogManager.getLogger(Player.class);
 
     // Declare variables
-    private String playerName;
+    private final String playerName;
 
-    private int mainNumberOfDice;
-    private ArrayList<Dice> dices;
+    private final int mainNumberOfDice;
+    private  ArrayList<Dice> dices;
     private ArrayList<Faces> currentRoll;
     private ArrayList<Faces> keptRolls;
 
@@ -41,9 +41,9 @@ public abstract class Player {
 
         this.mainNumberOfDice = numberOfDice;
 
-        this.currentRoll = new ArrayList<Faces>();
-        this.dices = new ArrayList<Dice>();
-        this.keptRolls = new ArrayList<Faces>();
+        this.currentRoll = new ArrayList<>();
+        this.dices = new ArrayList<>();
+        this.keptRolls = new ArrayList<>();
 
         // For loop adding dice to array which holds all dice for a given player
         for (int i = 0; i < numberOfDice; i++) {
@@ -55,7 +55,7 @@ public abstract class Player {
     // Also checks if traceMode is to be activated
     public static ArrayList<Player> createAllPlayers(String[] listOfPlayerTypes) throws UnknownPlayerException {
 
-        ArrayList<Player> createdPlayerList = new ArrayList<Player>();
+        ArrayList<Player> createdPlayerList = new ArrayList<>();
 
         for (int index = 0; index < listOfPlayerTypes.length; index++) {
             if (listOfPlayerTypes[index].contains("random")) {
@@ -93,14 +93,14 @@ public abstract class Player {
 
     }
 
-    // Method to add all skulls rolled to keptrolls
+    // Method to add all skulls rolled to keptRolls
     private void addSkulls() {
 
         // Loop through all dice rolled
         for (Faces currentFace : this.currentRoll) {
             // Check if any were a skull
             if (currentFace.equals(Faces.SKULL)) {
-                // If so, add it to kept rolls and remove one dice from the player
+                // If so, add it to kept rolls and remove one die from the player
                 this.keptRolls.add(currentFace);
                 this.dices.remove(0);
             }
@@ -165,7 +165,7 @@ public abstract class Player {
 
     public HashMap<Faces,Integer> checkCombinations(ArrayList<Faces> rolls) {
         // Setup HashMap to keep track of all face duplicates in the roll
-        HashMap<Faces,Integer> setLog = new HashMap<Faces,Integer>();
+        HashMap<Faces,Integer> setLog = new HashMap<>();
 
         for (Faces currentFace : Faces.values()) {
             setLog.put(currentFace,0);

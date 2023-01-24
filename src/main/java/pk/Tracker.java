@@ -1,8 +1,5 @@
 package pk;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-
 public class Tracker {
 
     public static void printStatsToConsole(Game game) {
