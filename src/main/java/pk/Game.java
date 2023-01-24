@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Game {
 
+    // Declarations
     Logger classLogger = LogManager.getLogger(Game.class);
 
     private ArrayList<Player> playerList;
@@ -24,11 +25,14 @@ public class Game {
             throw new NullPlayersException("Player list is empty. Was there any command line arguments?");
         }
 
-        this.playerList = new ArrayList<Player>();
+        // Variable setup
         this.numberOfRounds = numberOfRounds;
-        this.currentRoundNumber = 0;
+        this.currentRoundNumber = 1;
         this.winCondition = winCondition;
         this.deck = deck;
+
+        // Add players to game
+        this.playerList = new ArrayList<Player>();
         for (Player currentPlayer : players) {
             DevTools.logMessage(this.classLogger,"Found player: " + currentPlayer.getPlayerName(),Level.DEBUG);
             this.playerList.add(currentPlayer);
@@ -39,21 +43,18 @@ public class Game {
     // Method to play game
     public void playGame() {
 
-        // Stats variable declarations
-        this.currentRoundNumber = 1;
-
         while (this.currentRoundNumber != this.numberOfRounds + 1) {
 
             DevTools.logMessage(this.classLogger,"", Level.DEBUG);
             DevTools.logMessage(this.classLogger,"|----------ROUND " + this.currentRoundNumber + "----------|", Level.DEBUG);
 
-            int lastRoundTimer = 2;
+            boolean isGameOver = false;
             boolean isLastRound = false;
 
+            deck.fillDeck();
             deck.shuffleDeck();
 
-            while (lastRoundTimer != 0) {
-
+            while (!isGameOver) {
                 // Each player rolls dice and uses a strategy for keeping dice
                 for (Player currentPlayer : this.playerList) {
                     if (!checkIfTurnEnds(currentPlayer)) {
@@ -65,46 +66,47 @@ public class Game {
                         currentPlayer.drawCard(deck);
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Drew a " + currentPlayer.getCard().getCardType().toString() + " card", Level.DEBUG);
                         currentPlayer.getCard().cardEffect(currentPlayer);
+
+                        // Main player loop, roll dice and perform strategy (given they have not triggered an end turn condition)
                         do {
-                            if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer) && currentPlayer.getNumberOfSkulls() <= 2) {
+
+                            if (!checkIfTurnEnds(currentPlayer)) {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
                                 currentPlayer.rollDice();
+                            } else {
+                                break;
                             }
-                            if (!checkIfTurnEnds(currentPlayer) && currentPlayer.getNumberOfSkulls() <= 2) {
+
+                            if (!checkIfTurnEnds(currentPlayer)) {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Executing strategy...", Level.DEBUG);
                                 currentPlayer.strategy();
                             } else {
                                 break;
                             }
-                        } while (currentPlayer.getNumberOfSkulls() <= 2 && currentPlayer.getKeptRolls().size() < 8);
+
+                        } while (!checkIfTurnEnds(currentPlayer));
 
                         // Add points and reset player dice at the end of their turn
                         currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls(), currentPlayer.getCard()));
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                         currentPlayer.resetDice();
 
-                        // After the player's turn, check if they set a win condition
-                        if (isWinConditionSatisfied(currentPlayer,this.getWinCondition()) && isLastRound != true){
-                            // If so, last round is true and we set endTurn for the player to true
-                            // Thus they cannot play on the next iteration of this loop
-                            DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Set a win condition! One more turn for rest of players!", Level.DEBUG);
-                            isLastRound = true;
-                            currentPlayer.endTurn();
-                            break;
-                        }
                         DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " end turn------|", Level.DEBUG);
                     }
 
+                    // After the player's turn, check if they set a win condition
+                    if (isWinConditionSatisfied(currentPlayer,this.getWinCondition()) && isLastRound != true){
+                        // If so, last round is true and we set endTurn for the player to true
+                        // Thus they cannot play on the next iteration of this loop
+                        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Set a win condition! One more turn for rest of players!", Level.DEBUG);
+                        isLastRound = true;
+                        currentPlayer.endTurn();
+                    } else if (isLastRound && playerList.get(playerList.size()-1)==currentPlayer) {
+                        isGameOver = true;
+                    }
                 }
-
-                // Keep decreasing by 1
-                // The while loop after one iteration will be false and thus, the game (current game) will end
-                if (isLastRound) {
-                    lastRoundTimer--;
-                }
-
             }
 
             // After each game, check which players set a win condition
@@ -135,21 +137,21 @@ public class Game {
 
     }
 
-    // Method to check if a player has three skulls or they would like to end their turn
+    // Method to check if a player has ended their turn
     private boolean checkIfTurnEnds(Player player) {
 
+        // Check if the player requested to end their turn
         if (player.isTurnDone()) {
             return true;
         }
 
-        int numberOfSkulls = 0;
-        for (Faces face : player.getKeptRolls()) {
-            if (face.equals(Faces.SKULL)) {
-                numberOfSkulls++;
-            }
+        // Check for 3 or more skulls
+        if (player.getNumberOfSkulls() >= 3) {
+            return true;
         }
 
-        if (numberOfSkulls == 3) {
+        // Check if they have no more dice to roll
+        if (player.getDices().size() == 0) {
             return true;
         }
 
@@ -165,7 +167,8 @@ public class Game {
         }
     }
 
-
+    // Method to calculate all players that won the game
+    // More than one player can win if a tie occurs
     private ArrayList<Player> getWinConditionPlayers(ArrayList<Player> players, int winCondition) {
 
         // Variable declaration
@@ -175,7 +178,7 @@ public class Game {
         for (Player currentPlayer : players) {
 
             // If any satisfy the point win condition, add them to the winningPlayers list
-            if (currentPlayer.getPoints() >= winCondition) {
+            if (isWinConditionSatisfied(currentPlayer, winCondition)) {
                 winningPlayers.add(currentPlayer);
             }
         }
@@ -211,7 +214,7 @@ public class Game {
             if (tiedPlayers.size() > 1){
                 return tiedPlayers;
             } else {
-                // If not, return arraylist with highest scoring player
+                // If not, return arraylist with the highest scoring player
                 ArrayList<Player> highestPlayer = new ArrayList<Player>();
                 highestPlayer.add(highestScoringPlayer);
                 return highestPlayer;
@@ -231,16 +234,17 @@ public class Game {
     }
 
     // Getters
-    public ArrayList<Player> getPlayerList() {
-        return this.playerList;
-    }
 
-    public int getWinCondition() {
+    private int getWinCondition() {
         return this.winCondition;
     }
 
     public int getNumberOfRounds() {
         return this.numberOfRounds;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return this.playerList;
     }
 
     // Setters

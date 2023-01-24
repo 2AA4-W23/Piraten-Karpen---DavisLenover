@@ -9,7 +9,7 @@ public class CardDeck {
 
     private ArrayList<Card> cardDeck;
 
-    public CardDeck() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public CardDeck() {
         fillDeck();
     }
 
@@ -17,11 +17,7 @@ public class CardDeck {
     public void shuffleDeck() {
 
         if (this.cardDeck.size() == 0) {
-            try {
-                fillDeck();
-            } catch (Exception exception) {
-                ExceptionHandler.handleException(exception);
-            }
+            fillDeck();
         }
 
         Collections.shuffle(this.cardDeck);
@@ -31,11 +27,7 @@ public class CardDeck {
     public Card drawCard() {
 
         if (this.cardDeck.size() == 0) {
-            try {
-                fillDeck();
-            } catch (Exception exception) {
-                ExceptionHandler.handleException(exception);
-            }
+            fillDeck();
         }
 
         Card cardToReturn = this.cardDeck.get(0);
@@ -44,7 +36,7 @@ public class CardDeck {
 
     }
 
-    public void fillDeck() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void fillDeck() {
 
         // Create Hashmap for each card type and how many there should be
         HashMap<Card,Integer> cardLegend = new HashMap<Card,Integer>();
@@ -64,7 +56,7 @@ public class CardDeck {
                 if (currentCard instanceof SeaBattleCard) {
                     cardDeck.add(new SeaBattleCard(((SeaBattleCard) currentCard).getNumberOfSabers(), ((SeaBattleCard) currentCard).getBonusPoints()));
                 } else {
-                    cardDeck.add(currentCard.getClass().getConstructor().newInstance());
+                    cardDeck.add(new NopCard());
                 }
             }
         }
