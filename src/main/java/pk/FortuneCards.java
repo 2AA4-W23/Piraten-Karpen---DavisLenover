@@ -2,6 +2,6 @@ package pk;
 
 public enum FortuneCards {
 
-    SEA_BATTLE,NOP
+    SEA_BATTLE,MONKEY_BUSINESS,NOP
 
 }

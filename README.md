@@ -63,10 +63,11 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 ### Enhanced Business Logic Backlog
 | MVP? | Id  | Feature  | Status  |  Started  | Delivered |
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
-| x   | F08 | Multiple dice pairs/combination rewards |  D | 18/01/23 | 19/01/23 |
-| x   | F09 | Player maximize combo strategy |  D | 18/01/23 | 21/01/23 |
-| x   | F10 | Allow user to choose player strategies via command line |  D | 20/01/23 | 21/01/23 |
-| x   | F11 | Add card deck |  D | 23/01/23 | 23/01/23 |
-| x   | F12 | Allow user to draw a card |  D | 23/01/23 | 23/01/23 |
-| x   | F13 | Add Sea-battle card logic |  D | 23/01/23 | 23/01/23 |
-| x   | F14 | Add new sea battle player strategy |  D | 23/01/23 | 23/01/23 |
+|    | F08 | Multiple dice pairs/combination rewards |  D | 18/01/23 | 19/01/23 |
+|    | F09 | Player maximize combo strategy |  D | 18/01/23 | 21/01/23 |
+|    | F10 | Allow user to choose player strategies via command line |  D | 20/01/23 | 21/01/23 |
+|    | F11 | Add card deck |  D | 23/01/23 | 23/01/23 |
+|    | F12 | Allow user to draw a card |  D | 23/01/23 | 23/01/23 |
+|    | F13 | Add Sea-battle card logic |  D | 23/01/23 | 23/01/23 |
+|    | F14 | Add new sea battle player strategy |  D | 23/01/23 | 23/01/23 |
+|    | F15 | Add Monkey Business card logic |  S | 24/01/23 |  |
