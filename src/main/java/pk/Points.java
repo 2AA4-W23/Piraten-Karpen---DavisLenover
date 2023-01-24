@@ -60,7 +60,7 @@ public class Points {
 
         // Calculate points and set which rolls were used accordingly
         awardedPoints += checkForDiamondAndGold(rollsToCheck, rollsUsed);
-        awardedPoints += checkForSets(rollsToCheck, rollsUsed);
+        awardedPoints += checkForSets(rollsToCheck, rollsUsed, card);
 
         // Check for Full Chest
         if (rollsUsed.length == 8) {
@@ -125,6 +125,21 @@ public class Points {
                 return pointsToAward;
             }
 
+        } else if (card.getCardType() == FortuneCards.MONKEY_BUSINESS) {
+
+            // Count all monkeys and parrots and count them all as one set
+            int total = 0;
+            int[] pointList = {0,0,100,200,500,1000,2000,4000};
+
+            for (Faces currentFace : rollsToCheck) {
+                if (currentFace == Faces.PARROT || currentFace == Faces.MONKEY) {
+                    total++;
+                }
+            }
+
+            return pointList[total-1];
+
+
         } else {
             DevTools.logMessage(classLogger,"Drawn card is null", Level.DEBUG);
             return 0;
@@ -134,6 +149,7 @@ public class Points {
 
     // Method to check if 3 skulls are in the current roll
     private static boolean has3Skulls(ArrayList<Faces> rollsToCheck) {
+
         int numberOfSkulls = 0;
 
         for (Faces currentFace : rollsToCheck) {
@@ -181,7 +197,16 @@ public class Points {
     }
 
     // Method to check roll for sets and award points based off any given set
-    private static int checkForSets(ArrayList<Faces> rollToCheck, boolean[] rollsUsed) {
+    private static int checkForSets(ArrayList<Faces> rollToCheck, boolean[] rollsUsed, Card card) {
+
+        // Card method will calculate points for specific sets if needed
+        ArrayList<Faces> ignoredRolls = new ArrayList<>();
+
+        // Thus ignore some faces if need be
+        if (card instanceof MonkeyBusinessCard) {
+            ignoredRolls.add(Faces.MONKEY);
+            ignoredRolls.add(Faces.PARROT);
+        }
 
         DevTools.logMessage(classLogger,"Checking roll set for sets...", Level.DEBUG);
 
@@ -206,7 +231,8 @@ public class Points {
         for (Faces currentFace : setLog.keySet()) {
             if (currentFace != Faces.SKULL) {
                 int numberOfDuplicates = setLog.get(currentFace);
-                if (numberOfDuplicates >= 3) {
+                // Make sure to check if the current face is not ignored!
+                if (numberOfDuplicates >= 3 && !ignoredRolls.contains(currentFace)) {
                     int awardPoints = pointList[numberOfDuplicates-1];
                     DevTools.logMessage(classLogger,currentFace.toString() + ":" + numberOfDuplicates + ":" + "+" + awardPoints + " points", Level.DEBUG);
                     totalPoints += awardPoints;
