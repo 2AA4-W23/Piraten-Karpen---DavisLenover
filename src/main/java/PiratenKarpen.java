@@ -14,6 +14,7 @@ public class PiratenKarpen {
 
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
+
         try {
             CardDeck deck = new CardDeck();
             Game game = new Game(42, 6000, Player.createAllPlayers(args),deck);

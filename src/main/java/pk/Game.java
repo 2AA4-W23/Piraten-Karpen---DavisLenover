@@ -43,6 +43,8 @@ public class Game {
     // Method to play game
     public void playGame() {
 
+        System.out.println("Simulating " + this.numberOfRounds + " of games...");
+
         while (this.currentRoundNumber != this.numberOfRounds + 1) {
 
             DevTools.logMessage(this.classLogger,"", Level.DEBUG);

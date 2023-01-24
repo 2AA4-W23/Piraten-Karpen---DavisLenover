@@ -36,8 +36,12 @@ public class Points {
 
         int keptRollsSize = rollsToCheck.size();
 
+        // To calculate if the player obtained a full chest, use a boolean array which each index corresponds to the given rolls
+        boolean[] rollsUsed = new boolean[keptRollsSize];
+        Arrays.fill(rollsUsed, false);
+
         // Add corresponding points for card effects
-        awardedPoints += checkCardEffects(rollsToCheck,card);
+        awardedPoints += checkCardEffects(rollsToCheck,card,rollsUsed);
 
         if (awardedPoints < 0) {
             DevTools.logMessage(classLogger,"Roll has failed the card check. Total points: " + awardedPoints, Level.DEBUG);
@@ -53,10 +57,6 @@ public class Points {
                 return 0;
             }
         }
-
-        // To calculate if the player obtained a full chest, use a boolean array which each index corresponds to the given rolls
-        boolean[] rollsUsed = new boolean[keptRollsSize];
-        Arrays.fill(rollsUsed, false);
 
         // Calculate points and set which rolls were used accordingly
         awardedPoints += checkForDiamondAndGold(rollsToCheck, rollsUsed);
@@ -87,7 +87,7 @@ public class Points {
     }
 
     // Method to calculate points awarded for a given card
-    private static int checkCardEffects(ArrayList<Faces> rollsToCheck, Card card) {
+    private static int checkCardEffects(ArrayList<Faces> rollsToCheck, Card card, boolean[] rollsUsed) {
 
         DevTools.logMessage(classLogger,"Checking drawn card...", Level.DEBUG);
 
@@ -110,6 +110,18 @@ public class Points {
 
                 int pointsToAward = seaBattleCard.getBonusPoints();
 
+                // Set all sabers in used dice array to true
+                int diceUsedIndex = 0;
+
+                for (Faces checkFace : rollsToCheck) {
+                    if (checkFace == Faces.SABER) {
+                        rollsUsed[diceUsedIndex] = true;
+                    }
+
+                    diceUsedIndex++;
+
+                }
+
                 DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER, Level.DEBUG);
                 DevTools.logMessage(classLogger,"+" + pointsToAward + " points", Level.DEBUG);
 
@@ -127,6 +139,8 @@ public class Points {
 
         } else if (card.getCardType() == FortuneCards.MONKEY_BUSINESS) {
 
+            DevTools.logMessage(classLogger,"Card was " + FortuneCards.MONKEY_BUSINESS + ", counting " + Faces.MONKEY + " and " + Faces.PARROT + " as one set...", Level.DEBUG);
+
             // Count all monkeys and parrots and count them all as one set
             int total = 0;
             int[] pointList = {0,0,100,200,500,1000,2000,4000};
@@ -137,7 +151,27 @@ public class Points {
                 }
             }
 
-            return pointList[total-1];
+            if (total >= 3) {
+                int pointsAwarded = pointList[total-1];
+
+                // Set all monkeys and parrots in used dice array to true
+                int diceUsedIndex = 0;
+
+                for (Faces checkFace : rollsToCheck) {
+                    if (checkFace == Faces.PARROT || checkFace == Faces.MONKEY) {
+                        rollsUsed[diceUsedIndex] = true;
+                    }
+
+                    diceUsedIndex++;
+
+                }
+
+                DevTools.logMessage(classLogger, "Found a set of " + total + ":+" + pointsAwarded + " points", Level.DEBUG);
+
+                return pointsAwarded;
+            } else {
+                return 0;
+            }
 
 
         } else {
