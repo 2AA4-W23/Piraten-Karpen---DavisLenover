@@ -40,7 +40,8 @@ public class CardDeck {
         cardLegend.put(new SeaBattleCard(2,300),2);
         cardLegend.put(new SeaBattleCard(3,500),2);
         cardLegend.put(new SeaBattleCard(4,1000),2);
-        cardLegend.put(new NopCard(),29);
+        cardLegend.put(new MonkeyBusinessCard(),4);
+        cardLegend.put(new NopCard(),25);
 
         this.cardDeck = new ArrayList<>();
 
@@ -52,6 +53,8 @@ public class CardDeck {
                 // Check main card instance for passing parameters into constructor
                 if (currentCard instanceof SeaBattleCard) {
                     cardDeck.add(new SeaBattleCard(((SeaBattleCard) currentCard).getNumberOfSabers(), ((SeaBattleCard) currentCard).getBonusPoints()));
+                } else if (currentCard instanceof MonkeyBusinessCard){
+                    cardDeck.add(new MonkeyBusinessCard());
                 } else {
                     cardDeck.add(new NopCard());
                 }
