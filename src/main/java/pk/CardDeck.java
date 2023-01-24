@@ -53,6 +53,8 @@ public class CardDeck {
         cardLegend.put(new SeaBattleCard(4,1000),2);
         cardLegend.put(new NopCard(),29);
 
+        this.cardDeck = new ArrayList<Card>();
+
         // Loop through every card type
         for (Card currentCard : cardLegend.keySet()) {
             // Add x amount of cards to the card deck
@@ -60,7 +62,7 @@ public class CardDeck {
                 // To add the card, create a new instance of it
                 // Check main card instance for passing parameters into constructor
                 if (currentCard instanceof SeaBattleCard) {
-                    cardDeck.add(currentCard.getClass().getConstructor().newInstance(((SeaBattleCard) currentCard).getNumberOfSabers(),((SeaBattleCard) currentCard).getBonusPoints()));
+                    cardDeck.add(new SeaBattleCard(((SeaBattleCard) currentCard).getNumberOfSabers(), ((SeaBattleCard) currentCard).getBonusPoints()));
                 } else {
                     cardDeck.add(currentCard.getClass().getConstructor().newInstance());
                 }

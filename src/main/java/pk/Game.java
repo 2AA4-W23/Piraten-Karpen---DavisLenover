@@ -63,6 +63,7 @@ public class Game {
 
                         // Draw a card and apply any effects of the card to the player specifically
                         currentPlayer.drawCard(deck);
+                        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Drew a " + currentPlayer.getCard().getCardType().toString() + " card", Level.DEBUG);
                         currentPlayer.getCard().cardEffect(currentPlayer);
                         do {
                             if (currentPlayer.getDices().size() != 0 && !checkIfTurnEnds(currentPlayer)) {

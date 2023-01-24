@@ -39,11 +39,13 @@ public class Points {
         // Check if the cards had any effect on the points
         HashMap<ArrayList<Faces>,Integer> newRollSet = checkCardEffects(rollsToCheck,card);
 
-        // Returns a new rollsToCheck in case some rolls need to be ingnored
-        rollsToCheck = newRollSet.entrySet().iterator().next().getKey();
-
         // Add corresponding points
         awardedPoints += newRollSet.get(rollsToCheck);
+
+        if (awardedPoints < 0) {
+            DevTools.logMessage(classLogger,"Roll has failed the card check. Total points: " + awardedPoints, Level.DEBUG);
+            return awardedPoints;
+        }
 
 
         // First check if the roll set has 3 skulls
@@ -51,7 +53,7 @@ public class Points {
             if (has3Skulls(rollsToCheck)) {
                 DevTools.logMessage(classLogger,"Roll contains 3 or more skulls, no points awarded", Level.DEBUG);
                 // If so award 0 points
-                return awardedPoints;
+                return 0;
             }
         }
 
@@ -89,33 +91,43 @@ public class Points {
 
     private static HashMap<ArrayList<Faces>, Integer> checkCardEffects(ArrayList<Faces> rollsToCheck, Card card) {
 
+        DevTools.logMessage(classLogger,"Checking drawn card...", Level.DEBUG);
+
         if (card.getCardType() == FortuneCards.SEA_BATTLE) {
 
-                SeaBattleCard seaBattleCard = (SeaBattleCard) card;
+            SeaBattleCard seaBattleCard = (SeaBattleCard) card;
 
-                int sabersNeeded = seaBattleCard.getNumberOfSabers();
-                int numberOfSabersInRoll = 0;
+            int sabersNeeded = seaBattleCard.getNumberOfSabers();
+            int numberOfSabersInRoll = 0;
 
-                for (Faces currentFace : rollsToCheck) {
-                    if (currentFace == Faces.SABER) {
-                        numberOfSabersInRoll++;
-                    }
+            DevTools.logMessage(classLogger,"Checking if roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
+
+            for (Faces currentFace : rollsToCheck) {
+                if (currentFace == Faces.SABER) {
+                    numberOfSabersInRoll++;
                 }
+            }
 
-                if (numberOfSabersInRoll >= sabersNeeded) {
-                    HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
-                    returnMap.put(rollsToCheck, seaBattleCard.getBonusPoints());
+            if (numberOfSabersInRoll >= sabersNeeded) {
 
-                    return returnMap;
+                DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"+" + seaBattleCard.getBonusPoints() + " points", Level.DEBUG);
+                HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
+                returnMap.put(rollsToCheck, seaBattleCard.getBonusPoints());
 
-                } else {
-                    HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
-                    returnMap.put(removeAllRolls(rollsToCheck,Faces.SABER), seaBattleCard.getBonusPoints()*(-1));
+                return returnMap;
 
-                    return returnMap;
-                }
+            } else {
+                DevTools.logMessage(classLogger,"Roll does not have " + sabersNeeded + " or more " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"-" + seaBattleCard.getBonusPoints() + " points", Level.DEBUG);
+                HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
+                returnMap.put(removeAllRolls(rollsToCheck,Faces.SABER), seaBattleCard.getBonusPoints()*(-1));
+
+                return returnMap;
+            }
 
         } else {
+            DevTools.logMessage(classLogger,"Drawn card is null", Level.DEBUG);
             HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
             returnMap.put(rollsToCheck, 0);
             return returnMap;
