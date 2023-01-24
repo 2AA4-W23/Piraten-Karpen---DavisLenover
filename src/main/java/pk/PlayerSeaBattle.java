@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class PlayerSeaBattle extends PlayerCombo {
 
-    Logger classLogger = LogManager.getLogger(PlayerSeaBattle.class);
+    private final Logger classLogger = LogManager.getLogger(PlayerSeaBattle.class);
 
     public PlayerSeaBattle(String playerName, int numberOfDice) {
         super(playerName, numberOfDice);

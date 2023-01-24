@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 public class DevTools {
 
-    static Logger classLogger = LogManager.getLogger(DevTools.class);
+    private final static Logger classLogger = LogManager.getLogger(DevTools.class);
 
     // Logging
-    public static boolean isLogging = false;
+    private static boolean isLogging = false;
 
     public static void logMessage(Logger logger, String message, Level level) {
         if (isLogging) {

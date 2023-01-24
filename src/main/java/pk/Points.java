@@ -11,7 +11,7 @@ import java.util.HashMap;
 // The purpose of this class is to house all the necessary methods for point calculation
 public class Points {
 
-    static Logger classLogger = LogManager.getLogger(Points.class);
+    private static Logger classLogger = LogManager.getLogger(Points.class);
 
     /*There are three ways to score points:
 
@@ -36,11 +36,8 @@ public class Points {
 
         int keptRollsSize = rollsToCheck.size();
 
-        // Check if the cards had any effect on the points
-        HashMap<ArrayList<Faces>,Integer> newRollSet = checkCardEffects(rollsToCheck,card);
-
-        // Add corresponding points
-        awardedPoints += newRollSet.get(rollsToCheck);
+        // Add corresponding points for card effects
+        awardedPoints += checkCardEffects(rollsToCheck,card);
 
         if (awardedPoints < 0) {
             DevTools.logMessage(classLogger,"Roll has failed the card check. Total points: " + awardedPoints, Level.DEBUG);
@@ -89,7 +86,8 @@ public class Points {
 
     }
 
-    private static HashMap<ArrayList<Faces>, Integer> checkCardEffects(ArrayList<Faces> rollsToCheck, Card card) {
+    // Method to calculate points awarded for a given card
+    private static int checkCardEffects(ArrayList<Faces> rollsToCheck, Card card) {
 
         DevTools.logMessage(classLogger,"Checking drawn card...", Level.DEBUG);
 
@@ -110,27 +108,26 @@ public class Points {
 
             if (numberOfSabersInRoll >= sabersNeeded) {
 
-                DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
-                DevTools.logMessage(classLogger,"+" + seaBattleCard.getBonusPoints() + " points", Level.DEBUG);
-                HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
-                returnMap.put(rollsToCheck, seaBattleCard.getBonusPoints());
+                int pointsToAward = seaBattleCard.getBonusPoints();
 
-                return returnMap;
+                DevTools.logMessage(classLogger,"Roll has " + sabersNeeded + " " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"+" + pointsToAward + " points", Level.DEBUG);
+
+                return pointsToAward;
 
             } else {
-                DevTools.logMessage(classLogger,"Roll does not have " + sabersNeeded + " or more " + Faces.SABER.toString(), Level.DEBUG);
-                DevTools.logMessage(classLogger,"-" + seaBattleCard.getBonusPoints() + " points", Level.DEBUG);
-                HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
-                returnMap.put(removeAllRolls(rollsToCheck,Faces.SABER), seaBattleCard.getBonusPoints()*(-1));
 
-                return returnMap;
+                int pointsToAward = seaBattleCard.getBonusPoints()*(-1);
+
+                DevTools.logMessage(classLogger,"Roll does not have " + sabersNeeded + " or more " + Faces.SABER.toString(), Level.DEBUG);
+                DevTools.logMessage(classLogger,"-" + pointsToAward + " points", Level.DEBUG);
+
+                return pointsToAward;
             }
 
         } else {
             DevTools.logMessage(classLogger,"Drawn card is null", Level.DEBUG);
-            HashMap<ArrayList<Faces>, Integer> returnMap = new HashMap<ArrayList<Faces>, Integer>();
-            returnMap.put(rollsToCheck, 0);
-            return returnMap;
+            return 0;
         }
 
     }
@@ -187,6 +184,7 @@ public class Points {
         return points;
     }
 
+    // Method to check roll for sets and award points based off any given set
     private static int checkForSets(ArrayList<Faces> rollToCheck, boolean[] rollsUsed) {
 
         DevTools.logMessage(classLogger,"Checking roll set for sets...", Level.DEBUG);

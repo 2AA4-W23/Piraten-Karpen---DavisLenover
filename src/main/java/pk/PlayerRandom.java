@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class PlayerRandom extends Player {
 
-    Logger classLogger = LogManager.getLogger(PlayerRandom.class);
+    private final Logger classLogger = LogManager.getLogger(PlayerRandom.class);
     public PlayerRandom(String playerName, int numberOfDice) {
         super(playerName, numberOfDice);
     }

@@ -2,7 +2,7 @@ package pk;
 
 public abstract class Card {
 
-    public FortuneCards cardType;
+    private final FortuneCards cardType;
 
     public Card(FortuneCards cardType) {
         this.cardType = cardType;

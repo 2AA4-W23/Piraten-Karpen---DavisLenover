@@ -11,7 +11,7 @@ import java.util.HashMap;
 // Any methods implemented are the same for every player
 public abstract class Player {
 
-    Logger classLogger = LogManager.getLogger(Player.class);
+    private final Logger classLogger = LogManager.getLogger(Player.class);
 
     // Declare variables
     private String playerName;
@@ -252,9 +252,6 @@ public abstract class Player {
     public void addPoints(int points) {
         this.points += points;
     }
-    public void subPoints(int points) {
-        this.points -= points;
-    }
 
     public void addWin() {
         this.wins += 1;
@@ -262,14 +259,6 @@ public abstract class Player {
 
     public void addTie() {
         this.ties += 1;
-    }
-
-    public void resetWins() {
-        this.wins = 0;
-    }
-
-    public void resetTies() {
-        this.ties = 0;
     }
 
     public void endTurn() {

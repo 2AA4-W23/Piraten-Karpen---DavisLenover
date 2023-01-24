@@ -19,10 +19,8 @@ public class CardDeck {
         if (this.cardDeck.size() == 0) {
             fillDeck();
         }
-
         Collections.shuffle(this.cardDeck);
     }
-
 
     public Card drawCard() {
 

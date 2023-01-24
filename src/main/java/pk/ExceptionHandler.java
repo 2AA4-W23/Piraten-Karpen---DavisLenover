@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ExceptionHandler {
 
-    static Logger classLogger = LogManager.getLogger(ExceptionHandler.class);
+    private final static Logger classLogger = LogManager.getLogger(ExceptionHandler.class);
 
     // Handle setup exceptions
     public static void handleException(SetupException exception) {
@@ -18,6 +18,7 @@ public class ExceptionHandler {
         DevTools.logMessage(classLogger,"A SetupException occured!" + " Exception: " + exception.toString(),exception.getServerityLevel());
 
         if (exception.getServerityLevel() == Level.FATAL) {
+            // If logging is not enabled then it is useful to display important messages via print
             if (!DevTools.isLoggingEnabled()) {
                 System.out.println("Whoops! We ran into a problem!");
                 if (exception instanceof UnknownPlayerException) {
@@ -51,17 +52,6 @@ public class ExceptionHandler {
             isFatal = true;
         } else if (exception.getServerityLevel() == Level.WARN) {
 
-            // Check for all GameExceptions that have a level of warn
-            if (exception instanceof EmptyDeckException) {
-                DevTools.logMessage(classLogger,"Re-filling card deck..." + exception.toString(),Level.INFO);
-
-                try {
-                    ((EmptyDeckException) exception).getCardDeck().fillDeck();
-                } catch (Exception newException) {
-                    ExceptionHandler.handleException(newException);
-                }
-
-            }
         }
 
         if (isFatal) {
@@ -81,8 +71,6 @@ public class ExceptionHandler {
         }
 
         DevTools.logMessage(classLogger,"A general exception occured!" + " Exception: " + exception.toString(),Level.FATAL);
-
-        printStackTrace(exception);
 
         DevTools.logMessage(classLogger,"Error was fatal, as such, program will not continue...",Level.FATAL);
         System.exit(0);
