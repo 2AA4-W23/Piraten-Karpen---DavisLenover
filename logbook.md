@@ -13,4 +13,4 @@
 2023-01-23: Started implementing the card deck. Initially, I wanted to add error handling to checking if the card deck runs out but this proved to make the code more complex unintentionally.
 2023-01-23 (2): Another productive day! Step 5 is now complete! Made some changes to both Player class (mainly to support sea battle strategy) and Exception handling.
 2023-01-24: Implemented the monkey business card. Fixed an overlooked issue where if a player had a sea battle card, there was a chance that the player could not obtain a full chest award (applied to sea battle cards with two sabers)
-2023-01-29: Implemented Island of skulls mechanics and re-worked command line arguments with Apache CLI
+2023-01-29: Implemented Island of skulls mechanics and re-worked command line arguments with Apache CLI. Re-worked error handling a little
