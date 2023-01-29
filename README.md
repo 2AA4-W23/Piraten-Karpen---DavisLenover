@@ -19,15 +19,16 @@
 Remark: **We are assuming here you are using a _real_ shell (e.g., anything but PowerShell on Windows)**
 
 ## Game Setup
-* To start a game, please list type of players (separated by a space) in the entry arguments of the program
-* One argument is equivalent to one player
-* Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo` specifies that there is one random player and one combo player
-* `mvn exec:java -Dexec.args=”random combo”` also specifies two players with corresponding strategies
+* To start a game, please type the types of players you would like followed by the amount of them.
+* * Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar --random 2 --combo 2 --seabattle 2` specifies six total players, two of each type
+* Users can also specify the number of games via command line by adding the `-g` or `--game` argument followed by the number of desired games
+* * Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar --random 2 --combo 2 --seabattle 2 -g 50` specifies six total players and to play 50 games
+
 
 ## Trace Mode
  * Trace mode allows users to view what is happening with regards to both player logic and general logic as a game progresses
- * Trace mode is available by running the main method in PiratenKarpen with argument `traceActive` in any position
- * Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar random combo traceActive`
+ * Trace mode is available by running the compiled jar with argument `-ta` or `--traceActive`
+* * Ex: `java -jar target/piraten-karpen-jar-with-dependencies.jar --random 2 --combo 2 --seabattle 2 -g 50 -ta`
  **NOTE: This WILL produce a very large output log to console if the amount of rounds played is high!**
 
 ## Feature Backlog
@@ -60,4 +61,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 |    | F14 | Add new sea battle player strategy |  D | 23/01/23 | 23/01/23 |
 |    | F15 | Add Monkey Business card logic |  D | 24/01/23 | 24/01/23 |
 |    | F16 | Add island of skulls mechanic |  D | 29/01/23 | 29/01/23 |
-|    | F17 | Allow user to change number of games to play | S | 29/01/23 |  |
+|    | F17 | Allow user to change number of games to play | D | 29/01/23 | 29/01/23 |
