@@ -53,23 +53,21 @@ public abstract class Player {
         }
     }
 
-    // Method to create a list of all players given the console arguments
-    // Also checks if traceMode is to be activated
-    public static ArrayList<Player> createAllPlayers(String[] listOfPlayerTypes) throws UnknownPlayerException {
+    // Method to create a list of all players given a hashmap
+    // Hashmap contains the player type and an integer for how many players of the given type are to be created
+    public static ArrayList<Player> createAllPlayers(HashMap<PlayerType,Integer> playersToBeCreated){
 
         ArrayList<Player> createdPlayerList = new ArrayList<>();
 
-        for (int index = 0; index < listOfPlayerTypes.length; index++) {
-            if (listOfPlayerTypes[index].contains("random")) {
-                createdPlayerList.add(new PlayerRandom("PlayerRandom" + index,8));
-            } else if (listOfPlayerTypes[index].contains("combo")) {
-                createdPlayerList.add(new PlayerCombo("PlayerCombo" + index, 8));
-            } else if (listOfPlayerTypes[index].contains("seabattle")) {
-                createdPlayerList.add(new PlayerSeaBattle("PlayerSeaBattle" + index, 8));
-            } else if (listOfPlayerTypes[index].contains("traceActive")) {
-                DevTools.enableLogging();
-            } else {
-                throw new UnknownPlayerException("'" + listOfPlayerTypes[index] + "' is an unknown type of player.");
+        for (PlayerType type : playersToBeCreated.keySet()) {
+            for (int currentNumber = 1; currentNumber <= playersToBeCreated.get(type); currentNumber++) {
+                if (type == PlayerType.RANDOM) {
+                    createdPlayerList.add(new PlayerRandom("PlayerRandom"+currentNumber,8));
+                } else if (type == PlayerType.COMBO) {
+                    createdPlayerList.add(new PlayerCombo("PlayerCombo"+currentNumber,8));
+                } else if (type == PlayerType.SEABATTLE) {
+                    createdPlayerList.add(new PlayerSeaBattle("PlayerSeaBattle"+currentNumber,8));
+                }
             }
         }
 
