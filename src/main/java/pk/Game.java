@@ -64,6 +64,8 @@ public class Game {
                         DevTools.logMessage(this.classLogger,"|------" + currentPlayer.getPlayerName() + " turn------|", Level.DEBUG);
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Current points: " + currentPlayer.getPoints(), Level.DEBUG);
 
+                        currentPlayer.setIsFirstRoll(true);
+
                         // Draw a card and apply any effects of the card to the player specifically
                         currentPlayer.drawCard(deck);
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Drew a " + currentPlayer.getCard().getCardType().toString() + " card", Level.DEBUG);
@@ -76,6 +78,12 @@ public class Game {
                                 DevTools.logMessage(this.classLogger, "", Level.DEBUG);
                                 DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Rolling Dice...", Level.DEBUG);
                                 currentPlayer.rollDice();
+
+                                // Check if the player reached an island of skulls condition
+                                if (currentPlayer.isFirstRoll() && currentPlayer.getNumberOfSkulls() >= 4) {
+
+                                }
+
                             } else {
                                 break;
                             }

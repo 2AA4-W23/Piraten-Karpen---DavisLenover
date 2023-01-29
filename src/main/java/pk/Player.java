@@ -28,6 +28,7 @@ public abstract class Player {
     private int ties;
 
     private boolean isTurnDone;
+    public boolean isFirstRoll;
 
     // Constructor
     public Player(String playerName, int numberOfDice) {
@@ -38,6 +39,7 @@ public abstract class Player {
         this.wins = 0;
         this.ties = 0;
         this.isTurnDone = false;
+        this.isFirstRoll = false;
 
         this.mainNumberOfDice = numberOfDice;
 
@@ -203,6 +205,10 @@ public abstract class Player {
         this.isTurnDone = false;
     }
 
+    public boolean isFirstRoll() {
+        return isFirstRoll;
+    }
+
     // Getters
     public String getPlayerName() {
         return this.playerName;
@@ -263,6 +269,10 @@ public abstract class Player {
 
     public void endTurn() {
         this.isTurnDone = true;
+    }
+
+    public void setIsFirstRoll(boolean set) {
+        this.isFirstRoll = set;
     }
 
 }
