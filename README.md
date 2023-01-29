@@ -71,4 +71,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 |    | F13 | Add Sea-battle card logic |  D | 23/01/23 | 23/01/23 |
 |    | F14 | Add new sea battle player strategy |  D | 23/01/23 | 23/01/23 |
 |    | F15 | Add Monkey Business card logic |  D | 24/01/23 | 24/01/23 |
-|    | F16 | Add island of skulls mechanic |  S | 29/01/23 |  |
+|    | F16 | Add island of skulls mechanic |  D | 29/01/23 | 29/01/23 |
