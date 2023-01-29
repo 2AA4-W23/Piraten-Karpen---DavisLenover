@@ -37,19 +37,7 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
  * Definition of Done (DoD):
    * < Feature operates as expected (or rather outlined if in text) by client and is functionally sound (i.e. bug free and programmer is confident in it to operate correctly) >
 
-### Backlog 
-
-| MVP? | Id  | Feature  | Status  |  Started  | Delivered |
-| :-:  |:-:  |---       | :-:     | :-:       | :-:       |
-| x   | F01 | Roll a dice |  S | 01/01/23 |  |
-| x   | F02 | Roll eight dices  |  B (F01) |   |
-| x   | F03 | Select how many games as command-line arg.  |  P  |   |
-| x   | F04 | end of game with three cranes | P | |
-| x   | F05 | Player keeping random dice at their turn | B (F02) | | 
-| x   | F06 | Score points: 3-of-a-kind | B (F04) | | 
-| ... | ... | ... |
-
-### Updated Business Logic Backlog
+### Business Logic Backlog
 | MVP? | Id  | Feature  | Status  |  Started  | Delivered |
 | :-:  |:-:  |---       | :-:     | :-:       | :-:       |
 | x   | F01 | Roll a dice |  D | 09/01/23 | 10/01/23 |
@@ -72,3 +60,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 |    | F14 | Add new sea battle player strategy |  D | 23/01/23 | 23/01/23 |
 |    | F15 | Add Monkey Business card logic |  D | 24/01/23 | 24/01/23 |
 |    | F16 | Add island of skulls mechanic |  D | 29/01/23 | 29/01/23 |
+|    | F17 | Allow user to change number of games to play | S | 29/01/23 |  |
