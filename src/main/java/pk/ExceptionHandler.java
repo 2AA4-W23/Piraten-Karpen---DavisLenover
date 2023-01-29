@@ -19,37 +19,14 @@ public class ExceptionHandler {
             // If logging is not enabled then it is useful to display important messages via print
             if (!DevTools.isLoggingEnabled()) {
                 System.out.println("Whoops! We ran into a problem!");
-                if (exception instanceof UnknownPlayerException) {
-                    System.out.println("It seems we cannot understand the passed arguments!");
-                    System.out.println(exception.getMessage());
-                } else if (exception instanceof NullPlayersException) {
-                    System.out.println("It seems we could not detect any passed arguments!");
-                    System.out.println(exception.getMessage());
-                }
+                System.out.println(exception.getMessage());
                 System.out.println("For more information, please make sure tracing is enabled via passing 'traceActive' as the first argument.");
+                printStackTrace(exception);
+                System.out.println("The arguments for this program are shown below:");
+                CommandLineInterface.printHelp();
             }
 
             isFatal = true;
-        }
-
-        if (isFatal) {
-            DevTools.logMessage(classLogger,"Error was fatal, as such, program will not continue...",Level.FATAL);
-            System.exit(0);
-        }
-
-    }
-
-    // Handle game exceptions
-    public static void handleException(GameException exception) {
-
-        boolean isFatal = false;
-
-        DevTools.logMessage(classLogger,"A GameException occurred!" + " Exception: " + exception.toString(),exception.getSeverityLevel());
-
-        if (exception.getSeverityLevel() == Level.FATAL) {
-            isFatal = true;
-        } else if (exception.getSeverityLevel() == Level.WARN) {
-
         }
 
         if (isFatal) {
@@ -70,6 +47,9 @@ public class ExceptionHandler {
 
         DevTools.logMessage(classLogger,"A general exception occurred!" + " Exception: " + exception.toString(),Level.FATAL);
 
+        printStackTrace(exception);
+        System.out.println("The arguments for this program are shown below:");
+        CommandLineInterface.printHelp();
         DevTools.logMessage(classLogger,"Error was fatal, as such, program will not continue...",Level.FATAL);
         System.exit(0);
 

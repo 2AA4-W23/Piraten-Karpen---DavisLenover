@@ -2,11 +2,12 @@ package pk;
 
 import org.apache.logging.log4j.Level;
 
-public class UnknownPlayerException extends SetupException {
+public class BadNumberOfGamesException extends SetupException {
 
     private final Level severityLevel = Level.FATAL;
-    public UnknownPlayerException(String unknownPlayerMessage) {
-        super(unknownPlayerMessage);
+
+    public BadNumberOfGamesException(String message) {
+        super(message);
     }
 
     public Level getSeverityLevel() {

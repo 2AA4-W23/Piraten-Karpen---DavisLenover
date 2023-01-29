@@ -19,10 +19,14 @@ public class Game {
 
     private final CardDeck deck;
 
-    public Game(int numberOfGames, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException {
+    public Game(int numberOfGames, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException, BadNumberOfGamesException {
 
         if (players.isEmpty()) {
             throw new NullPlayersException("Player list is empty. Was there any command line arguments?");
+        }
+
+        if (numberOfGames < 1) {
+            throw new BadNumberOfGamesException(numberOfGames + " is not a valid number of games to play!");
         }
 
         // Variable setup
@@ -43,7 +47,7 @@ public class Game {
     // Method to play game
     public void playGame() {
 
-        System.out.println("Simulating " + this.numberOfGames + " of games...");
+        System.out.println("Simulating " + this.numberOfGames + " games...");
 
         while (this.currentGameNumber != this.numberOfGames + 1) {
 
@@ -84,6 +88,19 @@ public class Game {
                                     DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Player has rolled enough skulls to go to skull island!", Level.DEBUG);
                                     // Call island of skulls method to enter island of skulls
                                     islandOfSkulls(currentPlayer);
+
+                                    // Because island of skulls can subtract points, check if any player who had previously held a win condition no longer does
+                                    if (getWinConditionPlayers(this.playerList,this.getWinCondition()).isEmpty() && isLastRound) {
+                                        DevTools.logMessage(this.classLogger, "Win condition is no longer satisfied! Allowing game to continue...", Level.DEBUG);
+                                        isLastRound = false;
+                                        // Allow all players to continue playing
+                                        for (Player player : this.playerList) {
+                                            if (player != currentPlayer && player.isTurnDone()) {
+                                                player.resetDice();
+                                            }
+                                        }
+                                    }
+
                                 } else {
                                     currentPlayer.setIsFirstRoll(false);
                                 }
