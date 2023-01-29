@@ -13,21 +13,21 @@ public class Game {
     Logger classLogger = LogManager.getLogger(Game.class);
 
     private final ArrayList<Player> playerList;
-    private final int numberOfRounds;
-    private int currentRoundNumber;
+    private final int numberOfGames;
+    private int currentGameNumber;
     private final int winCondition;
 
     private final CardDeck deck;
 
-    public Game(int numberOfRounds, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException {
+    public Game(int numberOfGames, int winCondition, List<Player> players, CardDeck deck) throws NullPlayersException {
 
         if (players.isEmpty()) {
             throw new NullPlayersException("Player list is empty. Was there any command line arguments?");
         }
 
         // Variable setup
-        this.numberOfRounds = numberOfRounds;
-        this.currentRoundNumber = 1;
+        this.numberOfGames = numberOfGames;
+        this.currentGameNumber = 1;
         this.winCondition = winCondition;
         this.deck = deck;
 
@@ -43,12 +43,12 @@ public class Game {
     // Method to play game
     public void playGame() {
 
-        System.out.println("Simulating " + this.numberOfRounds + " of games...");
+        System.out.println("Simulating " + this.numberOfGames + " of games...");
 
-        while (this.currentRoundNumber != this.numberOfRounds + 1) {
+        while (this.currentGameNumber != this.numberOfGames + 1) {
 
             DevTools.logMessage(this.classLogger,"", Level.DEBUG);
-            DevTools.logMessage(this.classLogger,"|----------ROUND " + this.currentRoundNumber + "----------|", Level.DEBUG);
+            DevTools.logMessage(this.classLogger,"|----------GAME " + this.currentGameNumber + "----------|", Level.DEBUG);
 
             boolean isGameOver = false;
             boolean isLastRound = false;
@@ -81,7 +81,11 @@ public class Game {
 
                                 // Check if the player reached an island of skulls condition
                                 if (currentPlayer.isFirstRoll() && currentPlayer.getNumberOfSkulls() >= 4) {
-
+                                    DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Player has rolled enough skulls to go to skull island!", Level.DEBUG);
+                                    // Call island of skulls method to enter island of skulls
+                                    islandOfSkulls(currentPlayer);
+                                } else {
+                                    currentPlayer.setIsFirstRoll(false);
                                 }
 
                             } else {
@@ -99,7 +103,10 @@ public class Game {
                         } while (!checkIfTurnEnds(currentPlayer));
 
                         // Add points and reset player dice at the end of their turn
-                        currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls(), currentPlayer.getCard()));
+                        // If statement checks if islandOfSkulls happened (as we want to ignore point calculation)
+                        if(!(currentPlayer.isFirstRoll() && currentPlayer.getNumberOfSkulls() >= 4)) {
+                            currentPlayer.addPoints(Points.calculatePoints(currentPlayer.getKeptRolls(), currentPlayer.getCard()));
+                        }
                         DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Points after turn: " + currentPlayer.getPoints(), Level.DEBUG);
                         currentPlayer.resetDice();
 
@@ -133,13 +140,44 @@ public class Game {
                     }
                 }
 
-                DevTools.logMessage(this.classLogger,"|---------- END ROUND " + this.currentRoundNumber + "----------|", Level.DEBUG);
+                DevTools.logMessage(this.classLogger,"|---------- END GAME " + this.currentGameNumber + "----------|", Level.DEBUG);
                 // Resets
                 resetRound();
                 increaseRound();
 
             }
 
+        }
+
+    }
+
+    // Method for island of skulls game mechanic
+    private void islandOfSkulls(Player currentPlayer) {
+
+        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Playing island of skulls...", Level.DEBUG);
+        // Loop to have player keep re-rolling for skulls if possible
+        while(true) {
+            int numberOfSkullsPrevious = currentPlayer.getNumberOfSkulls();
+            currentPlayer.rollDice();
+            if (currentPlayer.getNumberOfSkulls() == numberOfSkullsPrevious || currentPlayer.getNumberOfSkulls() == 8) {
+                // End player turn to tell main game loop that the player has finished their turn upon exit of this method
+                currentPlayer.endTurn();
+                break;
+            }
+        }
+
+        // Calculate points to deduct
+        int pointsToDeduct = Points.islandOfSkullsPoints(currentPlayer.getKeptRolls());
+
+        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Player has ended their turn in island of skulls", Level.DEBUG);
+        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": keptRolls for skulls are: " + currentPlayer.getKeptRolls(), Level.DEBUG);
+        DevTools.logMessage(this.classLogger, currentPlayer.getPlayerName() + ": Every other player: " + pointsToDeduct + "points", Level.DEBUG);
+
+        // Deduct points from every player
+        for (Player player : this.playerList) {
+            if (player != currentPlayer) {
+                player.addPoints(pointsToDeduct);
+            }
         }
 
     }
@@ -238,8 +276,8 @@ public class Game {
         return this.winCondition;
     }
 
-    public int getNumberOfRounds() {
-        return this.numberOfRounds;
+    public int getNumberOfGames() {
+        return this.numberOfGames;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -248,7 +286,7 @@ public class Game {
 
     // Setters
     private void increaseRound() {
-        this.currentRoundNumber++;
+        this.currentGameNumber++;
     }
 
 }

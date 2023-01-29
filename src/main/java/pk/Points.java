@@ -298,4 +298,20 @@ public class Points {
         return totalPoints;
 
     }
+
+    // Method to calculate points deducted when a Player finishes in island of skulls
+    public static int islandOfSkullsPoints(ArrayList<Faces> rollToCheck) {
+
+        // Get number of skulls
+        int numberOfSkulls = 0;
+        for (Faces currentFace : rollToCheck) {
+            if (currentFace == Faces.SKULL) {
+                numberOfSkulls++;
+            }
+        }
+
+        return numberOfSkulls*100*(-1);
+
+    }
+
 }
